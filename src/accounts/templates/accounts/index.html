@@ -1,0 +1,8 @@
+{% extends "accounts/base.html" %}
+
+{% block title%}Home{%endblock%}
+
+{% block content%}
+  <h1>This is the home page!</h1>
+  <a href="{% url 'logout' %}">Logout here</a>
+{%endblock%}
