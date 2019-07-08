@@ -3,7 +3,9 @@
 {% block title%}Login{%endblock%}
 
 {% block content%}
-  <h1> You have been Logged Out</h1>
-
-  <p>Login Again <a href="{% url 'login' %}">here</a></p>
+<div class="container mt-5">
+    <!-- <h1> You have been Logged Out</h1> -->
+    <legend class="border-bottom mb-4">You have been Logged Out</legend>
+    <p>Login Again <a href="{% url 'login' %}">here</a></p>
+</div>
 {%endblock%}
