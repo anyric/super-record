@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,4 @@ CORS_ORIGIN_ALLOW_ALL = True
 AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = '/'
 # LOGOUT_REDIRECT_URL = '/'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
