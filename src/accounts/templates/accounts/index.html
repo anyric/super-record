@@ -1,11 +1,29 @@
 {% extends "accounts/base.html" %}
 
+{% load crispy_forms_tags %}
+
+{% load static %}
 {% block title%}Home{%endblock%}
 
 {% block content%}
-  <div class="container mt-5">
-      <h1>This is the home page!</h1>
-      <a href="{% url 'logout' %}">Logout here</a>
-  </div>
+  <div class="d-md-flex flex-md-equal w-100">
+        <div class="ml-md-4 pt-5 px-3 pt-md-5 px-md-5 overflow-hidden">
+            <div class="my-5 pt-5 ml-5">
+                <img class="display-5"src="{% static 'accounts/images/Logo.png' %}"/>
+            </div>
+            <div class="my-5 py-3 ml-5">
+                <h1>Smart System for Supermarket</h1>
+            </div>
+            <div class="my-5 py-3 ml-5">
+                <p>The true source of info for Decision makers</p>
+                <a class="btn btn-primary text-white" href="{% url 'login' %}">
+                    Login to Get Started
+                </a>
+            </div>
+        </div>
+        <div class="text-center overflow-hidden">
+            <img class="d-block" src="{% static 'accounts/images/home.jpeg' %}" style="width: 980px; height: 830px; border-radius: 410px 410px 410px 410px" alt="Landing page" />
+        </div>
+    </div>
   
 {%endblock%}

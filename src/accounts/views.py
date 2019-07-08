@@ -14,4 +14,7 @@ def register(request):
     }
     return render(request, 'accounts/signup.html', context)
 
+def home(request):
+    return render(request, 'accounts/index.html')
+
 
