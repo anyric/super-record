@@ -1,67 +1,57 @@
 from django import forms
-from django.contrib.auth import (
-    authenticate,
-    get_user_model,
-)
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from .models import User
 
-User = get_user_model()
+class UserCreationForm(forms.ModelForm):
+    """
+    A form for registering new users with all required field
+    """
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
-class UserLoginForm(forms.Form):
-    username = forms.CharField(label='Username')
-    password = forms.CharField(widget=forms.PasswordInput)
+    class Meta:
+        model = User
+        fields = ('username', 'email')
+    
+    def clean_password2(self):
+        """
+        Check to ensure passwords are the same
+        """
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Passwords didn't match")
+        return password2
+    
+    def save(self, commit=True):
+        """
+        Save password in hashed form
+        """
+        user = super(UserCreationForm, self).save(commit=False)
+        user.set_password(self.cleaned_data['password1'])
+        if commit:
+            user.save()
+        return user
 
-    def clean(self, *args, **kwargs):
-        username = self.cleaned_data.get('username')
-        password = self.cleaned_data.get('password')
+class UserChangeForm(forms.ModelForm):
+    """
+    A form for updating users with all fields while replacing password 
+    field with admin's password hash display field
+    """
+    password = ReadOnlyPasswordHashField()
 
-        if username and password:
-            user = authenticate(username=username, password=password)
-            if not user:
-                raise forms.ValidationError('The user does not exits')
-            if not user.check_password(password):
-                 raise forms.ValidationError('Incorrect password')
-            if not user.is_active:
-                raise forms.ValidationError('This user is not active')
-            
-        return super(UserLoginForm, self).clean(*args, **kwargs)
+    class Meta:
+        model = User
+        fields = ('email', 'username', 'is_active', 'is_admin')
 
-class UserRegisterForm(forms.ModelForm):
-    password = forms.CharField(label='Password',widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm Password',widget=forms.PasswordInput)
+    def clean_password(self):
+        return self.initial['password']
+
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField()
     
     class Meta:
         model = User
-        fields = [
-            'username',
-            'email'
-        ]
-
-    def clean_password(self):
-        password = self.cleaned_data.get('password')
-        password2 = self.cleaned_data.get('password2')
-        
-        if password and password2 and password != password2:
-            raise forms.ValidationError('Password must match')
-        
-        return password2
-
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-        username_qs = User.objects.filter(username=username)
-
-        if username_qs.exists():
-            raise forms.ValidationError('This username is already in use')
-
-        return username
-    
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        user_qs = User.objects.filter(email=email)
-
-        if user_qs.exists():
-            raise forms.ValidationError('This email is already in use')
-
-        return email
-
-
+        fields = ['username', 'email', 'password1', 'password2']
 

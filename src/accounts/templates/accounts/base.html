@@ -4,15 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Login</title>
+  <title>Super Record - {% block title %}{%endblock%}</title>
 </head>
 <body>
-  <h1>Login</h1>
-  <form action="." method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" />
-  </form>
-  <p>Don't have an account? Signup here</p>
+  {% block header %}{%endblock%}
+  {% block content %}{%endblock%}
+
+  {% block footer %}
+    <h5>All rights reserved, superrecord. @2019</h5>
+  {%endblock%}
 </body>
 </html>
