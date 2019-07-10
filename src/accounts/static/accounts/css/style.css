@@ -1,0 +1,6 @@
+
+#index #menu > a.selected {
+    color: #007bff;
+    border-bottom-style: solid;
+    border-bottom-color: #007bff;
+}
