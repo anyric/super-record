@@ -16,5 +16,8 @@
         <p>Don't have an account? <a href="{% url 'signup' %}">Signup here</a></p>
     </div>
   </div>
-  
+{%endblock%}
+
+{% block footer %}
+    {% include 'accounts/footer.html' %}
 {%endblock%}

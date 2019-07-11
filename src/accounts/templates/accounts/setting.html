@@ -1,0 +1,30 @@
+{% extends 'accounts/nav.html' %}
+
+{% block title%}Settings{%endblock%}
+
+{% block content %}
+    <script>
+        $(document).ready(function() {
+            $("#view").load("{% url 'user' %}");
+            $("#index #disp a").click(function() {
+                $("a.selected").removeClass("selected")
+                $(this).addClass("selected");
+                page = "{% url 'user' %}"
+                pageurl = page.replace("user",$(this).attr("id"));
+                $("#view").load(pageurl);
+            });
+        });
+    </script>
+    <div class="container my-5" style="max-width: 90%;">
+        <div id=disp class="sidenav">
+            <a id =user class="selected" href="#users">Users</a> 
+            <a id="product" href="#product">Product</a>
+            <a id="purchase" href="#purchase">Purchase</a>
+            <a id="sales" href="#sales">Sales</a>
+            <a id="expense" href="#expense">Expenses</a>
+        </div>
+        <div class="embed-responsive main" style="max-width: 92%;">
+            <div id='view'></div>
+        </div>
+    </div>
+{% endblock %}

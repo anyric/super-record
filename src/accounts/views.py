@@ -28,4 +28,19 @@ def product(request):
 def purchase(request):
     return render(request, 'accounts/purchase.html', {})
 
+@login_required
+def setting(request):
+    return render(request, 'accounts/setting.html', {})
+
+@login_required
+def user(request):
+    return render(request, 'accounts/user.html', {})
+
+@login_required
+def sales(request):
+    return render(request, 'accounts/sales.html', {})
+
+@login_required
+def expense(request):
+    return render(request, 'accounts/expense.html', {})
 
