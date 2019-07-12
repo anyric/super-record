@@ -1,21 +1,35 @@
-{% extends "accounts/nav.html" %}
-
-{% load crispy_forms_tags %}
-{% block title%}Signup{%endblock%}
+{% load widget_tweaks %}
 
 {% block content%}
-  <div class="container mt-5 border" style="width: 40%">
-    <form action="." method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            <legend class="border-bottom my-4">Register</legend>
-            {{ form|crispy }}
+    <form method="post">
+    {% csrf_token %}
+        <div class="modal-header">
+            <h5 class="modal-title text-primary">ADD STAFF MEMBER</h5>
         </div>
-        <button class="btn btn-primary" type="submit">Sign Up</button>
+
+        <div class="modal-body my-0">
+            <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% render_field field class="form-control" placeholder=field.label %}
+                    <div class="{% if field.errors %} invalid{% endif %}">
+                        {% for error in field.errors %}
+                            <p class="help-block">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="modal-footer form-group justify-content-start">
+            <button type="submit" class="btn-primary py-1">ADD STAFF MEMBER</button>
+            <button type="reset" class="border border-primary text-primary px-3 py-1" data-dismiss="modal">CANCEL</button>
+        </div>
     </form>
-    <div class="my-2">
-        <p>Have an account already? <a href="{% url 'login' %}">Login here</a></p>
-    </div>
-    
-</div>
 {%endblock%}

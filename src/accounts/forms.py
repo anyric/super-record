@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
 from .models import User
 
 class UserCreationForm(forms.ModelForm):
@@ -8,7 +9,7 @@ class UserCreationForm(forms.ModelForm):
     """
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
-    is_admin = forms.BooleanField(label='Is Admin', widget=forms.CheckboxInput)
+    is_admin = forms.BooleanField(label='Is Admin', required=False, widget=forms.CheckboxInput)
 
     class Meta:
         model = User
@@ -52,7 +53,7 @@ class UserChangeForm(forms.ModelForm):
     def clean_password(self):
         return self.initial['password']
 
-class UserRegisterForm(UserCreationForm):
+class UserRegisterForm(PopRequestMixin, CreateUpdateAjaxMixin, UserCreationForm):
     email = forms.EmailField()
     
     class Meta:
