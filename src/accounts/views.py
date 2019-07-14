@@ -2,15 +2,23 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
-from django.views import View
+from django.views.generic import ListView
 from bootstrap_modal_forms.generic import BSModalCreateView
 from .forms import UserRegisterForm
+from .models import User
+
+@method_decorator(login_required, name='dispatch')
+class UserListView(ListView):
+    queryset = User.objects.order_by('id')
+    paginate_by = 7
+    context_object_name = 'user_list'
+    template_name = 'accounts/user.html'
 
 @method_decorator(login_required, name='dispatch')
 class SignUpView(BSModalCreateView):
     form_class = UserRegisterForm
     template_name = 'accounts/signup.html'
-    success_message = 'Success: Sign up succeeded. You can now Log in.'
+    success_message = 'Success: Sign up succeeded.'
     success_url = reverse_lazy('setting')
 
 @login_required

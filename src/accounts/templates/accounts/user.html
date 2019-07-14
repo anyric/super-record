@@ -2,10 +2,9 @@
     <script src="http://malsup.github.com/jquery.form.js"></script>
 {% endblock %}
 
-{% load crispy_forms_tags %}
-
+{% load static %}
 <div class="container my-2">
-    <div class="navbar navbar-light mb-3 text-monospace ">
+    <div class="row navbar navbar-light mb-3 text-monospace ">
         <h4 class="text-uppercase font-weight-lighter">User</h4>
         <a class="signup-btn nav-link border border-primary px-3 py-2 text-primary"
             data-toggle="modal"
@@ -20,63 +19,75 @@
             <div class="modal-content"></div>
         </div>
     </div>
-    
+
     <script type="text/javascript">
+        $(document).ready(function() {
+            $("#index #page a").click(function() {
+                page = $(this).attr("href");
+                pageurl = page.replace("#",'');
+                $("#view").load(pageurl);
+            });
+        });
+
         $(function () {
-            // Sign up button
+            $(".signup-btn").modalForm({formURL: "{% url 'signup' %}"});
+        });
+
+        $(function () {
             $(".signup-btn").modalForm({formURL: "{% url 'signup' %}"});
         });
     </script>
-    
+
+    <style type="text/css">
+        .parent .row:hover {
+            background-color: gray;
+            box-shadow: 0 1rem 1.5rem rgba(0,0,0,.07)!important;
+          }
+    </style>
     <!-- End of modal -->
-    <div>
-        <p class="font-weight-light"> 
-            Some text to enable scrolling.. Lorem ipsum dolor sit amet, 
-            illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. 
-            Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. 
-            Inciderint efficiantur his ad. Eum no molestiae voluptatibus.
-        </p>
-        <p class="font-weight-light"> 
-            Some text to enable scrolling.. Lorem ipsum dolor sit amet, 
-            illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. 
-            Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. 
-            Inciderint efficiantur his ad. Eum no molestiae voluptatibus.
-        </p>
-        <p class="font-weight-light"> 
-            Some text to enable scrolling.. Lorem ipsum dolor sit amet, 
-            illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. 
-            Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. 
-            Inciderint efficiantur his ad. Eum no molestiae voluptatibus.
-        </p>
-        <p class="font-weight-light"> 
-            Some text to enable scrolling.. Lorem ipsum dolor sit amet, 
-            illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. 
-            Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. 
-            Inciderint efficiantur his ad. Eum no molestiae voluptatibus.
-        </p>
-        <p class="font-weight-light"> 
-            Some text to enable scrolling.. Lorem ipsum dolor sit amet, 
-            illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. 
-            Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. 
-            Inciderint efficiantur his ad. Eum no molestiae voluptatibus.
-        </p>
-        <p class="font-weight-light"> 
-            Some text to enable scrolling.. Lorem ipsum dolor sit amet, 
-            illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. 
-            Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. 
-            Inciderint efficiantur his ad. Eum no molestiae voluptatibus.
-        </p>
-        <p class="font-weight-light"> 
-            Some text to enable scrolling.. Lorem ipsum dolor sit amet, 
-            illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. 
-            Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. 
-            Inciderint efficiantur his ad. Eum no molestiae voluptatibus.
-        </p>
-        <p class="font-weight-light"> 
-            Some text to enable scrolling.. Lorem ipsum dolor sit amet, 
-            illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. 
-            Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. 
-            Inciderint efficiantur his ad. Eum no molestiae voluptatibus.
-        </p>
+    <!-- content -->
+    <div class="text-monospace">
+        <div class="row text-muted border-bottom mb-2">
+            <div class="col-2 pl-5">Id</div>
+            <div class="col-3 px-0">Name</div>
+            <div class="col-3 px-0">Email</div>
+            <div class="col-2">Admin</div>
+            <div class="col-2">Active</div>
+        </div>
+
+        {% for user in user_list %}
+            <div class="parent">
+                <div class="row highlight bg-light mb-2 py-3">
+                    <div class="col-2 pl-5">{{ user.id }}</div>
+                    <div class="col-3 px-0">{{ user.username }}</div>
+                    <div class="col-3 px-0">{{ user.email }}</div>
+                    <div class="col-2">{{ user.is_admin }}</div>
+                    <div class="col-2">{{ user.is_active }}</div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div id="page" class="pagination justify-content-end mt-4"> 
+            <span class="step-links">
+                <span>
+                    {% if page_obj.has_previous %}
+                        <a class="btn" href="#{% url 'user' %}?page={{ page_obj.previous_page_number }}">PREVIOUS</a>
+                    {% else %}
+                        <a href="#" class="btn disabled text-muted">PREVIOUS</a>
+                    {% endif %}
+                </span>
+                <span>
+                    Page {{ page_obj.number }} of {{ paginator.num_pages }}
+                </span>
+                <span>
+                    {% if page_obj.has_next %}
+                        <a class="btn" href="#{% url 'user' %}?page={{ page_obj.next_page_number }}">NEXT</a>
+                    {% else %}
+                        <a href="#" class="btn disabled text-muted">NEXT</a>
+                    {% endif %}
+                </span>
+            </span>
+        </div>
     </div>
+    <!-- End of content -->
 </div>
