@@ -11,6 +11,8 @@ urlpatterns = [
     path('accounts/user/', user_views.UserListView.as_view(), name='user'),
     path('accounts/home/', user_views.home, name='home'),
     path('accounts/signup/', user_views.SignUpView.as_view(), name='signup'),
+    path('accounts/edit/<int:id>/', user_views.EditProfileView.as_view(), name='edit'),
+    path('accounts/change_password/', user_views.PasswordUpdateView.as_view(), name='change_password'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
     path('accounts/product/', user_views.product, name='product'),

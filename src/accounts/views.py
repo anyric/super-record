@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
-from django.views.generic import ListView
+from django.views.generic import ListView, UpdateView, DetailView
 from bootstrap_modal_forms.generic import BSModalCreateView
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, EditProfileForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
 from .models import User
 
 @method_decorator(login_required, name='dispatch')
@@ -13,6 +15,22 @@ class UserListView(ListView):
     paginate_by = 7
     context_object_name = 'user_list'
     template_name = 'accounts/user.html'
+
+@method_decorator(login_required, name='dispatch')
+class EditProfileView(UpdateView, DetailView):
+    template_name = 'accounts/edit.html'
+    pk_url_kwarg = 'id'
+    form_class = EditProfileForm
+    queryset = User.objects.all()
+    success_url = reverse_lazy('setting')
+
+@method_decorator(login_required, name='dispatch')
+class PasswordUpdateView(PasswordChangeView):
+    template_name = 'accounts/change_password.html'
+    pk_url_kwarg = 'id'
+    form_class = PasswordChangeForm
+    queryset = User.objects.all()
+    success_url = reverse_lazy('setting')
 
 @method_decorator(login_required, name='dispatch')
 class SignUpView(BSModalCreateView):
@@ -36,10 +54,6 @@ def purchase(request):
 @login_required
 def setting(request):
     return render(request, 'accounts/setting.html', {})
-
-@login_required
-def user(request):
-    return render(request, 'accounts/user.html', {})
 
 @login_required
 def sales(request):

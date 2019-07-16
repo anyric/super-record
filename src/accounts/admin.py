@@ -8,6 +8,7 @@ from accounts.models import User
 
 class UserAdmin(BaseUserAdmin):
     # forms for adding and changing users
+    model = User
     form = UserChangeForm
     add_form = UserCreationForm
 
