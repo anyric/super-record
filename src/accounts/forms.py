@@ -1,6 +1,12 @@
 from django import forms
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
+from django.contrib.auth.forms import (
+    ReadOnlyPasswordHashField,
+    PasswordChangeForm
+)
+from bootstrap_modal_forms.mixins import (
+    PopRequestMixin,
+    CreateUpdateAjaxMixin
+)
 from .models import User
 
 class UserCreationForm(forms.ModelForm):
@@ -60,3 +66,8 @@ class UserRegisterForm(PopRequestMixin, CreateUpdateAjaxMixin, UserCreationForm)
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
+class EditProfileForm(UserChangeForm):
+    
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']

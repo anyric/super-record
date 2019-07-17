@@ -3,7 +3,18 @@
 {% load static %}
 
 {% block header %}
-    <div class="site-header sticky-top">
+    {% if user.is_authenticated %}
+        <script type="text/javascript">
+            $(".edit-btn").click(function() {
+                $(".edit-btn").modalForm({formURL: "{% url 'edit' user.id %}"});
+            });
+
+            $(".password-btn").click(function() {
+                $(".password-btn").modalForm({formURL: "{% url 'change_password' %}"});
+            });
+        </script>
+    {% endif %}
+    <div class="site-header sticky-top text-monospace">
         <div class="d-flex flex-column py-3 bg-dark flex-md-row">
             <ul class=" container nav justify-content-between">
                 <li class="nav-item">
@@ -16,7 +27,14 @@
                     <li class="nav-item dropdown">
                         <a class="navbar-brand small text-white dropdown-toggle" data-toggle="dropdown" href="#">{{ user.username }}</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item edit-btn"
+                            data-toggle="modal"
+                            title="Edit Staff Detail"
+                            href="{% url 'edit' user.id %}">Edit Profile</a>
+                            <a class="dropdown-item password-btn"
+                            data-toggle="modal"
+                            title="Update Password"
+                            href="{% url 'change_password' %}">Change Password</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
                         </div>

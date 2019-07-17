@@ -8,7 +8,7 @@
         <h4 class="text-uppercase font-weight-lighter">User</h4>
         <a class="signup-btn nav-link border border-primary px-3 py-2 text-primary"
             data-toggle="modal"
-            data-target="#exampleModal"
+            data-target="#modal"
             href="{% url 'signup' %}"
             title="Add Staff Member"
             data-tooltip>Add User</a>
@@ -33,8 +33,12 @@
             $(".signup-btn").modalForm({formURL: "{% url 'signup' %}"});
         });
 
-        $(function () {
-            $(".signup-btn").modalForm({formURL: "{% url 'signup' %}"});
+        $(".edit-btn").click(function() {
+            $(".edit-btn").modalForm({formURL: "{% url 'edit' user.id %}"});
+        });
+
+        $(".password-btn").click(function() {
+            $(".password-btn").modalForm({formURL: "{% url 'change_password' %}"});
         });
     </script>
 
