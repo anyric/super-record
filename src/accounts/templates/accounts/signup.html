@@ -1,9 +1,9 @@
 {% load widget_tweaks %}
 
 {% block content%}
-    <form method="post">
+    <form method="post" action="{% url 'signup' %}">
     {% csrf_token %}
-        <div class="modal-header">
+        <div class="modal-header my-0">
             <h5 class="modal-title text-primary">ADD STAFF MEMBER</h5>
         </div>
 
@@ -29,7 +29,7 @@
 
         <div class="modal-footer form-group justify-content-start">
             <button type="submit" class="btn-primary py-1">ADD STAFF MEMBER</button>
-            <button type="reset" class="border border-primary text-primary px-3 py-1" data-dismiss="modal">CANCEL</button>
+            <a href="#close" type="reset" class="btn border border-primary text-primary px-3 py-1" rel="modal:close">CANCEL</a>
         </div>
     </form>
 {%endblock%}

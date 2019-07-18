@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
-from django.views.generic import ListView, UpdateView, DetailView
+from django.views.generic import ListView, UpdateView, DetailView, DeleteView
 from bootstrap_modal_forms.generic import BSModalCreateView
 from .forms import UserRegisterForm, EditProfileForm
 from django.contrib.auth.forms import PasswordChangeForm
@@ -11,7 +11,7 @@ from .models import User
 
 @method_decorator(login_required, name='dispatch')
 class UserListView(ListView):
-    queryset = User.objects.order_by('id')
+    queryset = User.objects.all().order_by('id')
     paginate_by = 7
     context_object_name = 'user_list'
     template_name = 'accounts/user.html'
@@ -29,6 +29,19 @@ class PasswordUpdateView(PasswordChangeView):
     template_name = 'accounts/change_password.html'
     pk_url_kwarg = 'id'
     form_class = PasswordChangeForm
+    queryset = User.objects.all()
+    success_url = reverse_lazy('setting')
+
+@method_decorator(login_required, name='dispatch')
+class DeactivateView(DeleteView):
+    template_name = 'accounts/deactivate.html'
+    pk_url_kwarg = 'id'
+    queryset = User.objects.all()
+    success_url = reverse_lazy('setting')
+
+class ActivateView(DeleteView):
+    template_name = 'accounts/activate.html'
+    pk_url_kwarg = 'id'
     queryset = User.objects.all()
     success_url = reverse_lazy('setting')
 

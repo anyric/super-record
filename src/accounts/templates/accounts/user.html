@@ -1,21 +1,22 @@
 {% block extra_js%}
     <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 {% endblock %}
 
 {% load static %}
 <div class="container my-2">
     <div class="row navbar navbar-light mb-3 text-monospace ">
-        <h4 class="text-uppercase font-weight-lighter">User</h4>
-        <a class="signup-btn nav-link border border-primary px-3 py-2 text-primary"
-            data-toggle="modal"
-            data-target="#modal"
+        <h5 class="text-uppercase font-weight-lighter">User Account</h5>
+        <a class="nav-link border border-primary px-3 py-2 text-primary"
             href="{% url 'signup' %}"
             title="Add Staff Member"
-            data-tooltip>Add User</a>
+            rel="modal:open"><i class="fa fa-user-plus mr-1"></i>Add User</a>
     </div>
     <!-- Modal -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal" style="z-index: 50px">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content"></div>
         </div>
     </div>
@@ -27,18 +28,6 @@
                 pageurl = page.replace("#",'');
                 $("#view").load(pageurl);
             });
-        });
-
-        $(function () {
-            $(".signup-btn").modalForm({formURL: "{% url 'signup' %}"});
-        });
-
-        $(".edit-btn").click(function() {
-            $(".edit-btn").modalForm({formURL: "{% url 'edit' user.id %}"});
-        });
-
-        $(".password-btn").click(function() {
-            $(".password-btn").modalForm({formURL: "{% url 'change_password' %}"});
         });
     </script>
 
@@ -55,8 +44,9 @@
             <div class="col-2 pl-5">Id</div>
             <div class="col-3 px-0">Name</div>
             <div class="col-3 px-0">Email</div>
-            <div class="col-2">Admin</div>
-            <div class="col-2">Active</div>
+            <div class="col-1">Admin</div>
+            <div class="col-1">Status</div>
+            <div class="col-2 pl-4">Action</div>
         </div>
 
         {% for user in user_list %}
@@ -65,8 +55,32 @@
                     <div class="col-2 pl-5">{{ user.id }}</div>
                     <div class="col-3 px-0">{{ user.username }}</div>
                     <div class="col-3 px-0">{{ user.email }}</div>
-                    <div class="col-2">{{ user.is_admin }}</div>
-                    <div class="col-2">{{ user.is_active }}</div>
+                    <div class="col-1">
+                        {% if user.is_admin %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </div>
+                    <div class="col-1">
+                        {% if user.is_active %}
+                            Active
+                        {% else %}
+                            Disabled
+                        {% endif %}
+                    </div>
+                    <div class="col-2">
+                        {% if user.is_active %}
+                            <a class="btn btn-sm"
+                                title="Deactivate Account"
+                                href="{% url 'deactivate' user.id %}"
+                                rel="modal:open"><i class="fa fa-toggle-off mr-1"></i>Deactivate</a></div>
+                        {% else %}
+                            <a class="btn btn-sm"
+                                title="Activate Account"
+                                href="{% url 'activate' user.id %}"
+                                rel="modal:open"><i class="fa fa-toggle-on mr-1"></i>Activate</a></div>
+                        {% endif %}
                 </div>
             </div>
         {% endfor %}

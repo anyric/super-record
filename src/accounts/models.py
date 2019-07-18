@@ -33,7 +33,6 @@ class UserManager(BaseUserManager):
 
         user = self.model(username=username,email = self.normalize_email(email),)
         user.set_password(password)
-        # user.is_staff=True
         user.is_active=True
         user.save(using=self._db)
         return user
@@ -74,6 +73,10 @@ class User(AbstractBaseUser):
     def __str__(self):
         """Returns a string representation of this `User`."""
         return self.username
+
+    def delete(self):
+        self.is_active ^= True
+        self.save()
 
     def get_full_name(self):
         # The user is identified by their email address
