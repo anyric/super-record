@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,
     AbstractBaseUser,
+    Group,
 )
 
 class UserManager(BaseUserManager):
@@ -99,3 +100,9 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         return self.is_admin
 
+class Role(Group):
+    description = models.TextField(max_length=100, unique=True)
+
+    def __str__(self):
+        """Returns a string representation of this `Role`."""
+        return self.name

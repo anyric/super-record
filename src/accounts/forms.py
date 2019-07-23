@@ -7,7 +7,8 @@ from bootstrap_modal_forms.mixins import (
     PopRequestMixin,
     CreateUpdateAjaxMixin
 )
-from .models import User
+from .models import User, Role
+from .permissions import assign_permissions
 
 class UserCreationForm(forms.ModelForm):
     """
@@ -71,3 +72,15 @@ class EditProfileForm(UserChangeForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
+
+class RoleCreationForm(forms.ModelForm):
+
+    class Meta:
+        model = Role
+        fields = ('name', 'description')
+
+class EditRoleForm(forms.ModelForm):
+    
+    class Meta:
+        model = Role
+        fields = ['name', 'description']
