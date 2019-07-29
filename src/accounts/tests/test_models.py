@@ -19,6 +19,18 @@ class UserModelTest(TestCase):
         self.assertEqual(admin.username, "admintest")
         self.assertEqual(admin.email, "admintest@info.com")
 
+    def test_admin_with_no_username(self):
+        with self.assertRaises(ValueError):
+            User.objects.create_superuser("", "admintest@info.com", "1234@admin")
+
+    def test_admin_with_no_email(self):
+        with self.assertRaises(ValueError):
+            User.objects.create_superuser("admintest", "", "1234@admin")
+
+    def test_admin_with_no_password(self):
+        with self.assertRaises(ValueError):
+            User.objects.create_superuser("admintest", "admintest@info.com", "")
+
     def test_regular_user_details_not_equal(self):
         test = User.objects.get(username="test")
        
@@ -32,12 +44,12 @@ class UserModelTest(TestCase):
         self.assertNotEqual(admin.email, "admintests@info.com")
 
     def test_username_label(self):
-        test = User.objects.get(id=1)
+        test = User.objects.get(id=2)
         field_label = test._meta.get_field('username').verbose_name
         self.assertEquals(field_label, 'username')
     
     def test_username_max_length(self):
-        test = User.objects.get(id=1)
+        test = User.objects.get(id=2)
         max_length = test._meta.get_field('username').max_length
         self.assertEquals(max_length, 255)
 
@@ -47,7 +59,7 @@ class UserModelTest(TestCase):
         self.assertEquals(field_label, 'email address')
 
     def test_email_max_length(self):
-        test = User.objects.get(id=1)
+        test = User.objects.get(id=2)
         max_length = test._meta.get_field('email').max_length
         self.assertEquals(max_length, 255)
 
@@ -84,6 +96,33 @@ class UserModelTest(TestCase):
     def test_user_count(self):
         count = User.objects.count()
         self.assertEqual(count, 2)
+
+    def test_user_get_full_name(self):
+        test = User.objects.get(id=3)
+        name = test.get_full_name()
+        self.assertEqual(name, 'admintest')
+    
+    def test_user_get_short_name(self):
+        test = User.objects.get(id=3)
+        name = test.get_short_name()
+        self.assertEqual(name, 'admintest')
+
+    def test_user_has_perm(self):
+        test = User.objects.get(id=2)
+        self.assertTrue(test.has_perm('add_user'))
+
+    def test_user_has_module_perm(self):
+        test = User.objects.get(id=2)
+        self.assertTrue(test.has_module_perms('accounts'))
+
+    def test_user_is_staff(self):
+        test = User.objects.get(id=3)
+        self.assertTrue(test.is_staff)
+
+    def test_user_can_be_deleted(self):
+        test = User.objects.get(id=2)
+        test.delete()
+        self.assertFalse(test.is_active)
 
 class RoleModelTest(TestCase):
     @classmethod
