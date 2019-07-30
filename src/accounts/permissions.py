@@ -2,7 +2,7 @@ from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from .models import User
 
-def assign_permissions(role, perm_list={}, full=False):
+def assign_permissions(role, perm_list=[], full=False):
     all_perms = []
 
     if not role and not perm_list:
@@ -16,8 +16,12 @@ def assign_permissions(role, perm_list={}, full=False):
                 role.permissions.add(Permission.objects.get(codename=perm))
                 role.save()
         else:
-            for perm in perm_list:
-                role.permissions.add(Permission.objects.get(codename=perm))
+            if len(perm_list) > 1:
+                for perm in perm_list:
+                    role.permissions.add(Permission.objects.get(codename=perm))
+                    role.save()
+            else:
+                role.permissions.add(Permission.objects.get(codename=perm_list[0]))
                 role.save()
 
 def remove_permissions(role, new_perm, old_perms):

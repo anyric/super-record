@@ -1,10 +1,11 @@
 from django.test import TestCase
+from django.core.exceptions import ValidationError
 from ..forms import (
-    UserRegisterForm, EditProfileForm, 
+    UserRegisterForm, EditProfileForm, UserCreationForm,
     RoleCreationForm, EditRoleForm
 )
 
-class UserCreationFormTest(TestCase):
+class UserRegistrationFormTest(TestCase):
     
     def setUp(self):
         self.user_register = UserRegisterForm()
@@ -41,6 +42,48 @@ class UserCreationFormTest(TestCase):
     def test_form_is_not_valid(self):
         self.assertFalse(self.user_register.is_valid())
 
+class UserCreationFormTest(TestCase):
+    
+    def test_empty_passwords_not_allowed(self):
+        form = UserCreationForm(
+            data={
+                'username': 'anyric',
+                'email': 'anyric@info.com',
+                'password1':'',
+                'password2':''
+            }
+        )
+        form.is_valid()
+        with self.assertRaises(ValidationError):
+            form.clean_password2()
+
+    def test_save_form(self):
+        form = UserCreationForm(
+            data={
+                'username': 'anyrictest',
+                'email': 'anyrictest@info.com',
+                'password1': 'anyrictest@1234',
+                'password2': 'anyrictest@1234',
+                'is_admin': True
+            }
+        )
+        self.assertTrue(form.is_valid())
+        user = form.save()
+        self.assertTrue(user.is_admin)
+
+    def test_passwords_are_not_same(self):
+        form = UserCreationForm(
+            data={
+                'username': 'anyrictest',
+                'email': 'anyrictest@info.com',
+                'password1': 'anyrictest@1234',
+                'password2': 'anyrictest@12345'
+            }
+        )
+        self.assertFalse(form.is_valid())
+        with self.assertRaises(ValidationError):
+            form.clean_password2()
+       
 
 class EditProfileFormTest(TestCase):
     

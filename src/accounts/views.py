@@ -67,6 +67,7 @@ class RoleCreationView(CreateView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
+
         if form.is_valid():
             role = form.save()
 
@@ -78,7 +79,7 @@ class RoleCreationView(CreateView):
 
             return HttpResponseRedirect(self.success_url)
 
-        return render(request, self.success_url, {'form': form})
+        return super().post(request, *args, **kwargs)
 
 @method_decorator(login_required, name='dispatch')
 class RoleListView(ListView):
@@ -121,15 +122,13 @@ class EditRoleView(UpdateView, DetailView):
             edit_role.permissions.remove()
             assign_permissions(edit_role, new_perm, full=True)
         else:
-            perms = []
             if len(new_perm) > 1:
-                for p in new_perm:
-                    if p not in self.old_perms:
-                        perms += p
-                        assign_permissions(edit_role, perms)
+                for perm in new_perm:
+                    if perm not in self.old_perms:
+                        assign_permissions(edit_role, [perm])
                 remove_permissions(edit_role, new_perm, self.old_perms)
             else:
-                if new_perm not in self.role_perms:
+                if new_perm not in self.old_perms:
                     assign_permissions(edit_role, new_perm)
                 remove_permissions(edit_role, new_perm, self.old_perms)
 
@@ -146,23 +145,23 @@ class DeleteRoleView(DeleteView):
 class Home(TemplateView):
     template_name = 'accounts/home.html'
 
-@login_required
-def product(request):
-    return render(request, 'accounts/product.html', {})
+@method_decorator(login_required, name="dispatch")
+class Product(TemplateView):
+    template_name = 'accounts/product.html'
 
-@login_required
-def purchase(request):
-    return render(request, 'accounts/purchase.html', {})
+@method_decorator(login_required, name="dispatch")
+class Purchase(TemplateView):
+    template_name = 'accounts/purchase.html'
 
-@login_required
-def setting(request):
-    return render(request, 'accounts/setting.html', {})
+@method_decorator(login_required, name='dispatch')
+class Setting(TemplateView):
+    template_name = 'accounts/setting.html'
 
-@login_required
-def sales(request):
-    return render(request, 'accounts/sales.html', {})
+@method_decorator(login_required, name="dispatch")
+class Sales(TemplateView):
+    template_name = 'accounts/sales.html'
 
-@login_required
-def expense(request):
-    return render(request, 'accounts/expense.html', {})
+@method_decorator(login_required, name="dispatch")
+class Expense(TemplateView):
+    template_name = 'accounts/expense.html'
 
