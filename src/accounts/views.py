@@ -13,13 +13,16 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.models import Group
 from .models import User, Role
 from .permissions import assign_permissions, remove_permissions
+from .decorators import group_required
 
-@method_decorator(login_required, name='dispatch')
+decorators = [group_required(['Admin','Manager','General Manager'])]
+@method_decorator(decorators, name='dispatch')
 class UserListView(ListView):
     queryset = User.objects.all().order_by('id')
-    paginate_by = 7
+    paginate_by = 10
     context_object_name = 'user_list'
     template_name = 'accounts/user.html'
+    # if current_user.
 
 @method_decorator(login_required, name='dispatch')
 class EditProfileView(UpdateView, DetailView):
@@ -28,6 +31,33 @@ class EditProfileView(UpdateView, DetailView):
     form_class = EditProfileForm
     queryset = User.objects.all()
     success_url = reverse_lazy('setting')
+    old_role = []
+
+    def get(self, request, *args, **kwargs):
+        self.id = kwargs['id']
+        self.user = User.objects.get(id=self.id)
+
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['roles'] = Group.objects.all().values_list('name', flat=True)
+    
+        return context
+      
+    def post(self, request, *args, **kwargs):
+        id = kwargs['id']
+        user = User.objects.get(id=id)
+        self.old_role += user.groups.all().values_list('name', flat=True)
+        new_role = request.POST.get('role', None)
+
+        if len(self.old_role) > 0:
+            user.groups.remove(Group.objects.get(name=self.old_role[0]))
+
+        if new_role != None:
+            user.groups.add(Group.objects.get(name=new_role))
+
+        return super().post(request, *args, **kwargs)
 
 @method_decorator(login_required, name='dispatch')
 class PasswordUpdateView(PasswordChangeView):
@@ -37,7 +67,7 @@ class PasswordUpdateView(PasswordChangeView):
     queryset = User.objects.all()
     success_url = reverse_lazy('setting')
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(decorators, name='dispatch')
 class DeactivateView(DeleteView):
     template_name = 'accounts/deactivate.html'
     pk_url_kwarg = 'id'
@@ -51,14 +81,33 @@ class ActivateView(DeleteView):
     queryset = User.objects.all()
     success_url = reverse_lazy('setting')
 
-@method_decorator(login_required, name='dispatch')
-class SignUpView(BSModalCreateView):
+@method_decorator(decorators, name='dispatch')
+class SignUpView(CreateView):
     form_class = UserRegisterForm
     template_name = 'accounts/signup.html'
     success_message = 'Success: Sign up succeeded.'
     success_url = reverse_lazy('setting')
 
-@method_decorator(login_required, name='dispatch')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['roles'] = Group.objects.all().values_list('name', flat=True)
+    
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+
+            role_name = request.POST['role']
+            user.groups.add(Group.objects.get(name=role_name))
+
+            return HttpResponseRedirect(self.success_url)
+
+        return super().post(request, *args, **kwargs)
+
+@method_decorator(decorators, name='dispatch')
 class RoleCreationView(CreateView):
     form_class = RoleCreationForm
     template_name = 'accounts/add_role.html'
@@ -81,14 +130,14 @@ class RoleCreationView(CreateView):
 
         return super().post(request, *args, **kwargs)
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(decorators, name='dispatch')
 class RoleListView(ListView):
     queryset = Role.objects.all().order_by('id')
-    paginate_by = 7
+    paginate_by = 10
     context_object_name = 'role_list'
     template_name = 'accounts/roles.html'
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(decorators, name='dispatch')
 class EditRoleView(UpdateView, DetailView):
     template_name = 'accounts/edit_role.html'
     pk_url_kwarg = 'id'
@@ -134,7 +183,7 @@ class EditRoleView(UpdateView, DetailView):
 
         return super().post(request, *args, **kwargs)
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(decorators, name='dispatch')
 class DeleteRoleView(DeleteView):
     template_name = 'accounts/delete_role.html'
     pk_url_kwarg = 'id'
@@ -153,7 +202,7 @@ class Product(TemplateView):
 class Purchase(TemplateView):
     template_name = 'accounts/purchase.html'
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(decorators, name='dispatch')
 class Setting(TemplateView):
     template_name = 'accounts/setting.html'
 

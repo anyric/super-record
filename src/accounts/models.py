@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,
     AbstractBaseUser,
+    PermissionsMixin,
     Group,
 )
 
@@ -54,7 +55,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     """
     Class for creating user implementing the abstract 
     base user and the permission class 
