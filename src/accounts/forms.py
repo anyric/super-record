@@ -64,7 +64,7 @@ class UserChangeForm(forms.ModelForm):
     def clean_password(self):
         return self.initial['password']
 
-class UserRegisterForm(PopRequestMixin, CreateUpdateAjaxMixin, UserCreationForm):
+class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
     
     class Meta:
