@@ -13,7 +13,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.models import Group
 from .models import User, Role
 from .permissions import assign_permissions, remove_permissions
-from .decorators import group_required
+from decorators.decorators import group_required
 
 decorators = [group_required(['Admin','Manager','General Manager'])]
 @method_decorator(decorators, name='dispatch')
@@ -22,7 +22,6 @@ class UserListView(ListView):
     paginate_by = 10
     context_object_name = 'user_list'
     template_name = 'accounts/user.html'
-    # if current_user.
 
 @method_decorator(login_required, name='dispatch')
 class EditProfileView(UpdateView, DetailView):
@@ -193,10 +192,6 @@ class DeleteRoleView(DeleteView):
 @method_decorator(login_required, name='dispatch')
 class Home(TemplateView):
     template_name = 'accounts/home.html'
-
-@method_decorator(login_required, name="dispatch")
-class Product(TemplateView):
-    template_name = 'accounts/product.html'
 
 @method_decorator(login_required, name="dispatch")
 class Purchase(TemplateView):

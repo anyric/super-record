@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse_lazy
-from .models import User
 
 def group_required(group_names):
     """Checks for user membership in at least one of the groups passed in."""

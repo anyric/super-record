@@ -10,7 +10,13 @@
                 $("a.selected").removeClass("selected")
                 $(this).addClass("selected");
                 page = "{% url 'user' %}"
-                pageurl = page.replace("user",$(this).attr("id"));
+                pageurl = ""
+                if ($(this).attr("id") == 'products'){
+                    pageurl = page.replace("user",$(this).attr("id"));
+                    pageurl = pageurl.replace("accounts", "stocks")
+                }else{  
+                    pageurl = page.replace("user",$(this).attr("id"));
+                }
                 $("#view").load(pageurl);
             });
         });
@@ -19,7 +25,7 @@
         <div id=disp class="sidenav">
             <a id =user class="selected" href="#users"><i class="fa fa-users mr-1"></i>Users</a>
             <a id ="roles" href="#roles">Roles</a> 
-            <a id="product" href="#product">Product</a>
+            <a id="products" href="#products">Stocks</a>
             <a id="purchase" href="#purchase">Purchase</a>
             <a id="sales" href="#sales">Sales</a>
             <a id="expense" href="#expense"><i class="fa fa-money mr-1"></i>Expense</a>
