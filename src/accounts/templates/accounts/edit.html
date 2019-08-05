@@ -27,7 +27,7 @@
                     {% endif %}
                 </div>
             {% endfor %}
-            {% if user.groups.all.0.name in  'Admin,Manager,General Manager' %}
+            {% if request.user.groups.all.0.name in  'Admin,Manager,General Manager' %}
                 <label for="role">Roles</label>
                 <select class="form-control" name="role" id="role">
                     {% for role in roles %}
