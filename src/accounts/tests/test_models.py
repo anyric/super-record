@@ -140,6 +140,10 @@ class RoleModelTest(TestCase):
         self.assertEqual(admin.name, "admin")
         self.assertEqual(admin.description, "This is a admin role")
 
+    def test_role_object_return_correct_str_rep(self):
+        role = Role.objects.create(name="cleaner", description="This is a cleaner role")
+        self.assertEqual(str(role), 'cleaner')
+
     def test_role_name_label(self):
         test = Role.objects.get(id=1)
         field_label = test._meta.get_field('name').verbose_name
