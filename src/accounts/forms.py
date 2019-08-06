@@ -3,10 +3,7 @@ from django.contrib.auth.forms import (
     ReadOnlyPasswordHashField,
     PasswordChangeForm
 )
-from bootstrap_modal_forms.mixins import (
-    PopRequestMixin,
-    CreateUpdateAjaxMixin
-)
+
 from .models import User, Role
 from .permissions import assign_permissions
 
