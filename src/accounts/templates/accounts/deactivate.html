@@ -4,7 +4,7 @@
     <form method="post" action="{% url 'deactivate' object.id %}">
     {% csrf_token %}
         <div class="modal-header">
-            <h5 class="modal-title text-primary">DEACTIVATE ACCOUNT COMFORMATION</h5>
+            <h5 class="modal-title text-primary">DEACTIVATE ACCOUNT COMFIRMATION</h5>
         </div>
 
         <div class="modal-body my-0">
@@ -13,7 +13,7 @@
         </div>
 
         <div class="modal-footer form-group justify-content-start">
-            <button class="btn-primary py-1" type="submit">YES, DEACTIVATE</button>
+            <button class="btn-danger py-1" type="submit">YES, DEACTIVATE</button>
             <a class="btn border border-primary text-primary px-3 py-1"
                 href="#close"
                 type="reset"

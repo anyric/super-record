@@ -1,16 +1,20 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from accounts.models import User
 from ..forms import ProductCreationForm, EditProductForm
 
 class RoleCreationFormTest(TestCase):
     def setUp(self):
+        self.test = User.objects.create_user("test", "test@info.com", "1234@test")
         self.prod_creater = ProductCreationForm()
         self.prod_creater2 = ProductCreationForm(
             data={
                 'name': 'sugar',
                 'description': 'This is a stock of kakira sugar',
                 'quantity': 10,
-                'unit_price': 4000.0
+                'unit_price': 4000.0,
+                'stock_level': 10, 
+                'created_by': self.test.id
             }
         )
 
@@ -39,13 +43,16 @@ class RoleCreationFormTest(TestCase):
 
 class EditProductFormTest(TestCase):
     def setUp(self):
+        self.test = User.objects.create_user("test", "test@info.com", "1234@test")
         self.prod_creater = EditProductForm()
         self.prod_creater2 = EditProductForm(
             data={
                 'name': 'sugar',
                 'description': 'This is a stock of kakira sugar',
                 'quantity': 10,
-                'unit_price': 4000.0
+                'unit_price': 4000.0,
+                'stock_level': 10, 
+                'created_by': self.test.id
             }
         )
 
