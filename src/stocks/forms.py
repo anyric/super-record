@@ -5,20 +5,15 @@ class ProductCreationForm(forms.ModelForm):
     """
     A form for creating new product with all required field
     """
-    stock_level = forms.IntegerField(label='stock level', widget=forms.IntegerField)
-    created_by = forms.IntegerField(label='created by', widget=forms.IntegerField)
-
     class Meta:
         model = Product
-        fields = ('name', 'description', 'quantity', 'unit_price')
+        fields = ('name', 'description', 'quantity', 'unit_price', 'stock_level', 'created_by')
 
 class EditProductForm(forms.ModelForm):
     """
     A form for editing existing product with all required field
     """
-    stock_level = forms.IntegerField(label='stock level', widget=forms.IntegerField)
-    created_by = forms.IntegerField(label='created by', widget=forms.IntegerField)
-
     class Meta:
         model = Product
-        fields = ['name', 'description', 'quantity', 'unit_price']
+        fields = ['name', 'description', 'quantity', 'unit_price','stock_level']
+        exclude = ['created_by']

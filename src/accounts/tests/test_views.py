@@ -231,7 +231,6 @@ class RoleCreationViewTest(TestCase):
     def test_role_creation_by_get(self):
         self.test.groups.add(Group.objects.get(name='Manager'))
         self.client.login(username='test', password='1234@test')
-        self.client.login(username='test', password='1234@test')
         response = self.client.post(reverse_lazy('role'))
         self.assertEqual(response.status_code, 200)
 

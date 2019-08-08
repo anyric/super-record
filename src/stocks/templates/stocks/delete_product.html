@@ -1,15 +1,15 @@
 {% load widget_tweaks %}
 
 {% block content%}
-    <form method="post" action="{% url 'delete_role' object.id %}">
+    <form method="post" action="{% url 'delete_product' object.id %}">
     {% csrf_token %}
         <div class="modal-header">
-            <h5 class="modal-title text-primary">DELETE ROLE COMFIRMATION</h5>
+            <h5 class="modal-title text-primary">DELETE PRODUCT COMFIRMATION</h5>
         </div>
 
         <div class="modal-body my-0">
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            Do you really want to delete role "{{ object }}"?
+            Do you really want to delete product "{{ object }}"?
         </div>
 
         <div class="modal-footer form-group justify-content-start">
