@@ -68,14 +68,14 @@ class UserListViewTest(TestCase):
         self.assertTrue(response.context['is_paginated'] == True)
         self.assertTrue(len(response.context['user_list']) == 10)
 
-    def test_user_list_second_pagination_is_1(self):
+    def test_user_list_second_pagination_is_2(self):
         self.test1.groups.add(Group.objects.get(name='Manager'))
-        resp = self.client.login(username='man', password='1234@test')
+        self.client.login(username='man', password='1234@test')
         response = self.client.get(reverse_lazy('user')+'?page=2')
         self.assertEqual(response.status_code, 200)
         self.assertTrue('is_paginated' in response.context)
         self.assertTrue(response.context['is_paginated'] == True)
-        self.assertTrue(len(response.context['user_list']) == 1)
+        self.assertTrue(len(response.context['user_list']) == 2)
 
 
 class UserCreateViewTest(TestCase):
@@ -113,7 +113,7 @@ class UserEditViewTest(TestCase):
         self.test = User.objects.create_user("test", "test@info.com", "1234@test")
         self.test2 = User.objects.create_user("test2", "test2@info.com", "1234@test2")
         self.role = Role.objects.create(name="test", description="This is a test role")
-        self.role2 = Role.objects.create(name="Admin", description="This is an admin role")
+        self.role2 = Role.objects.create(name="Manager", description="This is an manager role")
         self.test.save()
         self.role.save()
         self.role2.save()
@@ -126,7 +126,7 @@ class UserEditViewTest(TestCase):
         self.assertTemplateUsed(response, 'accounts/edit.html')
 
     def test_user_profile_edit(self):
-        self.test.groups.add(Group.objects.get(name='Admin'))
+        self.test.groups.add(Group.objects.get(name='Manager'))
         self.client.login(username='test', password='1234@test')
         data={'username':'test1','email':'test1@info.com','role':'Admin'}
         response = self.client.post(reverse_lazy('edit', kwargs={'id':self.test.id}), data)
@@ -134,20 +134,20 @@ class UserEditViewTest(TestCase):
         self.assertRedirects(response,reverse_lazy('setting'))
     
     def test_edit_user_role(self):
-        self.test.groups.add(Group.objects.get(name='Admin'))
+        self.test.groups.add(Group.objects.get(name='Manager'))
         self.test2.groups.add(Group.objects.get(name='test'))
         self.client.login(username='test', password='1234@test')
-        data={'username':'test2','email':'test2@info.com','role':'Admin'}
+        data={'username':'test2','email':'test2@info.com','role':'Manager'}
         response = self.client.post(reverse_lazy('edit', kwargs={'id':self.test2.id}), data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response,reverse_lazy('setting'))
-        data={'username':'test1','email':'test1@info.com','role':'Admin'}
+        data={'username':'test1','email':'test1@info.com','role':'Manager'}
         response = self.client.post(reverse_lazy('edit', kwargs={'id':self.test.id}), data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response,reverse_lazy('setting'))
 
     def test_user_login_after_edit(self):
-        self.test.groups.add(Group.objects.get(name='Admin'))
+        self.test.groups.add(Group.objects.get(name='Manager'))
         self.client.login(username='test', password='1234@test')
         data={'username':'test1','email':'test1@info.com'}
         response = self.client.post(reverse_lazy('edit', kwargs={'id':self.test.id}), data)
