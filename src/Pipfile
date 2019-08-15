@@ -15,6 +15,8 @@ django-bootstrap-modal-forms="*"
 django-widget-tweaks="*"
 django-extensions="*"
 sqlparse="*"
+coverage="*"
+codacy-coverage="*"
 
 [requires]
 python_version = "3.7"

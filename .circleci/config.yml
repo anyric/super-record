@@ -1,0 +1,78 @@
+version: 2
+defaults: &defaults
+  docker:
+    - image: circleci/python:3.7
+    - image: postgres:10.7
+      environment:
+        POSTGRES_USER: superrecord
+        POSTGRES_DB: superrecord
+  working_directory: ~/super-record
+
+persist_to_workspace: &persist_to_workspace
+  persist_to_workspace:
+    root: .
+    paths: .
+
+attach_workspace: &attach_workspace
+  attach_workspace:
+    at: ~/super-record
+
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.7
+    working_directory: ~/super-record
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: True
+      - *attach_workspace
+      - run:
+          name: Build application
+          command: make build
+
+  run_test:
+    docker:
+      - image: circleci/python:3.7
+    working_directory: ~/super-record
+
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: True
+      - *attach_workspace
+      - run:
+          name: Testing application
+          command: |
+            make test
+  
+  upload_coverage:
+    <<: *defaults
+    steps:
+      - checkout
+      - *attach_workspace
+      - run:
+          name: Wait for postgres to be ready
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Upload coverage
+          command: |
+            cd src/
+            pipenv install --skip-lock
+            . $(pipenv --venv)/bin/activate
+            coverage run manage.py test
+            coverage xml
+            python-codacy-coverage -r coverage.xml
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - run_test:
+          requires:
+            - build
+      - upload_coverage:
+          requires:
+            - run_test
+
