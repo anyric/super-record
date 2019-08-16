@@ -1,4 +1,7 @@
 # super-record
+[![CircleCI](https://circleci.com/gh/anyric/super-record/tree/develop.svg?style=svg&circle-token=9a8691ee19049daa3538b4168d097e776dd4d0bc)](https://circleci.com/gh/anyric/super-record/tree/develop)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fdc129400a8240d6b843ef4250be4279)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=anyric/super-record&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/fdc129400a8240d6b843ef4250be4279)](https://www.codacy.com?utm_source=github.com&utm_medium=referral&utm_content=anyric/super-record&utm_campaign=Badge_Coverage)
 ## Description
 Super Record is an information management system which serves the purpose of automating business processes of a supermarket in an effort to improve efficiency, accuracy, performance and accountability.
 

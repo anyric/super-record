@@ -22,6 +22,7 @@ services:
       DATABASE_PASSWORD: 'postgres'
       DATABASE_PORT: '5432'
       SECRET_KEY: 'c^-oq&0fah72+y8(-qijb9-@pbp9!$p^3pym(!&_mk%5t*a!ce'
+      CODACY_PROJECT_TOKEN: "${CODACY_PROJECT_TOKEN}"
       DEBUG: 'True'
     depends_on:
       - database

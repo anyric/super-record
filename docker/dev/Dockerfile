@@ -7,7 +7,7 @@ LABEL maintainer='Anyama Richard'
 WORKDIR /app
 
 # update system and install dependencies
-RUN apk update && apk add --no-cache bash \
+RUN apk update && apk add --no-cache bash git openssh \
     && apk add --virtual build-deps gcc python3-dev musl-dev \
     && apk add postgresql-dev \
     && pip install psycopg2 \

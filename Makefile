@@ -44,7 +44,18 @@ stop:
 ## Run project test cases
 test:build
 	@ ${INFO} "Running tests in docker container"
+	@ docker-compose -f $(DOCKER_DEV_COMPOSE_FILE) run -d database
 	@ docker-compose -f $(DOCKER_DEV_COMPOSE_FILE) run app python manage.py test
+
+## Run  and report coverage results
+report:
+	@ ${INFO} "Generating and uploading test coverage"
+	@ cd src/
+	@ pipenv install --skip-lock
+	@ . $(pipenv --venv)/bin/activate
+	@ coverage run manage.py test
+	@ coverage xml
+	@ python-codacy-coverage -r coverage.xml
 
 ## Remove all images
 clean:
