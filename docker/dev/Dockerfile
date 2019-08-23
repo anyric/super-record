@@ -16,6 +16,7 @@ RUN apk update && apk add --no-cache bash git openssh \
 
 #copy source code to app dir
 COPY src/ /app/
+ADD Pipfile /app/
 
 ADD scripts/start.sh /app/
 

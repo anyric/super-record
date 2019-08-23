@@ -24,7 +24,12 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG',False)
-
+SECURE_CONTENT_TYPE_NOSNIFF = os.getenv('SECURE_CONTENT_TYPE_NOSNIFF',False)
+SECURE_BROWSER_XSS_FILTER =  os.getenv('SECURE_BROWSER_XSS_FILTER',False)
+SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT',False)
+SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE',False)
+CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE',False)
+X_FRAME_OPTIONS = os.getenv('X_FRAME_OPTIONS','SAMEORIGIN')
 ALLOWED_HOSTS = ['*']
 
 
@@ -47,6 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -123,17 +129,15 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 CORS_ORIGIN_ALLOW_ALL = True
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = '/'
