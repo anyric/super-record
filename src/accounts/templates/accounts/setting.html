@@ -13,7 +13,10 @@
                 pageurl = ""
                 if ($(this).attr("id") == 'products'){
                     pageurl = page.replace("user",$(this).attr("id"));
-                    pageurl = pageurl.replace("accounts", "stocks")
+                    pageurl = pageurl.replace("accounts", "stocks");
+                } else if ($(this).attr("id") == 'purchase'){
+                    pageurl = page.replace("user",$(this).attr("id"));
+                    pageurl = pageurl.replace("accounts", "purchases");
                 }else{  
                     pageurl = page.replace("user",$(this).attr("id"));
                 }
@@ -26,7 +29,7 @@
             <a id =user class="selected" href="#users"><i class="fa fa-users mr-1"></i>Users</a>
             <a id ="roles" href="#roles">Roles</a> 
             <a id="products" href="#products">Stocks</a>
-            <a id="purchase" href="#purchase">Purchase</a>
+            <a id="purchase" href="#purchases">Purchase</a>
             <a id="sales" href="#sales">Sales</a>
             <a id="expense" href="#expense"><i class="fa fa-money mr-1"></i>Expense</a>
         </div>

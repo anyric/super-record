@@ -194,8 +194,6 @@ class Home(TemplateView):
     template_name = 'accounts/home.html'
 
 @method_decorator(login_required, name="dispatch")
-class Purchase(TemplateView):
-    template_name = 'accounts/purchase.html'
 
 @method_decorator(decorators, name='dispatch')
 class Setting(TemplateView):
