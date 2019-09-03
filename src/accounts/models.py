@@ -57,8 +57,8 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     """
-    Class for creating user implementing the abstract 
-    base user and the permission class 
+    Class for creating user implementing the abstract
+    base user and the permission class
     """
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(verbose_name='email address', max_length=255,unique=True)
@@ -69,14 +69,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
-    
+
     objects = UserManager()
 
     def __str__(self):
         """Returns a string representation of this `User`."""
         return self.username
 
-    def delete(self):
+    def delete(self, using=None, keep_parents=False):
         self.is_active ^= True
         self.save()
 

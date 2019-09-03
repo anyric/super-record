@@ -1,12 +1,10 @@
-from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, UpdateView, DetailView, DeleteView, CreateView, TemplateView )
-from bootstrap_modal_forms.generic import BSModalCreateView
-from .forms import ( UserRegisterForm, EditProfileForm, 
+from .forms import ( UserRegisterForm, EditProfileForm,
     RoleCreationForm, EditRoleForm )
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
@@ -146,20 +144,19 @@ class EditRoleView(UpdateView, DetailView):
     old_perms = []
 
     def get(self, request, *args, **kwargs):
-        self.id = kwargs['id']
-        self.edit_role = Role.objects.get(id=self.id)
+        self.edit_role = Role.objects.get(id=kwargs['id'])
 
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['role_perms'] = self.edit_role.permissions.all().values_list('codename', flat=True)
-    
+
         return context
-      
+
     def post(self, request, *args, **kwargs):
-        id = kwargs['id']
-        edit_role = Role.objects.get(id=id)
+
+        edit_role = Role.objects.get(id=kwargs['id'])
         self.old_perms += edit_role.permissions.all().values_list('codename', flat=True)
         new_perm = request.POST.getlist('user_perm')
 

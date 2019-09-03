@@ -1,11 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import (
-    ReadOnlyPasswordHashField,
-    PasswordChangeForm
-)
-
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from .models import User, Role
-from .permissions import assign_permissions
 
 class UserCreationForm(forms.ModelForm):
     """
@@ -49,7 +44,7 @@ class UserCreationForm(forms.ModelForm):
 
 class UserChangeForm(forms.ModelForm):
     """
-    A form for updating users with all fields while replacing password 
+    A form for updating users with all fields while replacing password
     field with admin's password hash display field
     """
     password = ReadOnlyPasswordHashField()
@@ -63,13 +58,13 @@ class UserChangeForm(forms.ModelForm):
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
-    
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
 class EditProfileForm(UserChangeForm):
-    
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
@@ -81,7 +76,7 @@ class RoleCreationForm(forms.ModelForm):
         fields = ('name', 'description')
 
 class EditRoleForm(forms.ModelForm):
-    
+
     class Meta:
         model = Role
         fields = ['name', 'description']

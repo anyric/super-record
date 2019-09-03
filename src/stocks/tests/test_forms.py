@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from accounts.models import User
 from ..forms import ProductCreationForm, EditProductForm
 
-class RoleCreationFormTest(TestCase):
+class ProductCreationFormTest(TestCase):
     def setUp(self):
         self.test = User.objects.create_user("test", "test@info.com", "1234@test")
         self.prod_creater = ProductCreationForm()

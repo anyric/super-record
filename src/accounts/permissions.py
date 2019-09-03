@@ -1,8 +1,7 @@
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
-from .models import User
 
-def assign_permissions(role, perm_list=[], full=False):
+def assign_permissions(role, perm_list, full=False):
     all_perms = []
 
     if not role and not perm_list:
