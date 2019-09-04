@@ -17,6 +17,9 @@
                 } else if ($(this).attr("id") == 'purchases'){
                     pageurl = page.replace("user",$(this).attr("id"));
                     pageurl = pageurl.replace("accounts", "purchases");
+                }else if ($(this).attr("id") == 'sales'){
+                    pageurl = page.replace("user",$(this).attr("id"));
+                    pageurl = pageurl.replace("accounts", "sales");
                 }else{  
                     pageurl = page.replace("user",$(this).attr("id"));
                 }
