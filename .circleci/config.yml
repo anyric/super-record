@@ -97,3 +97,4 @@ workflows:
               only:
                 - master
                 - develop
+                - ft-add-purchase-views-168168753

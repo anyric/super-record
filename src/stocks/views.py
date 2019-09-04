@@ -1,5 +1,4 @@
 from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -15,7 +14,6 @@ class ProductListView(ListView):
     paginate_by = 10
     context_object_name = 'product_list'
     template_name = 'stocks/products.html'
-    
 
 @method_decorator(decorators, name='dispatch')
 class ProductCreationView(CreateView):
@@ -28,9 +26,9 @@ class ProductCreationView(CreateView):
         data = {
             'name': request.POST.get('name', None),
             'description': request.POST.get('description', None),
-            'quantity': request.POST.get('quantity', None),
-            'unit_price': request.POST.get('unit_price', None),
-            'stock_level': request.POST.get('quantity', None), 
+            'quantity': request.POST.get('quantity', 0),
+            'unit_price': request.POST.get('unit_price', 0),
+            'stock_level': request.POST.get('quantity', 0),
             'created_by': request.user.id
         }
         if request.method == 'POST':
