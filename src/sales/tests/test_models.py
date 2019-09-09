@@ -14,12 +14,12 @@ class SalesModelTest(TestCase):
                                 quantity=20, unit_price=5000.0, stock_level=20,
                                 created_by=User.objects.get(username="admintest"))
         Sales.objects.create(name=prod.name,
-                            item=prod.id,
-                            quantity=5, unit_price=3000.0, total_amount=15000.0,
+                            item=prod,
+                            quantity=5, unit_price=prod.unit_price, total_amount=prod.unit_price * 5,
                             sold_by=User.objects.get(username="admintest"))
         Sales.objects.create(name=prod2.name,
-                            item=prod2.id,
-                            quantity=2, unit_price=5000.0, total_amount=10000.0,
+                            item=prod2,
+                            quantity=2, unit_price=prod2.unit_price, total_amount=prod2.unit_price * 2,
                             sold_by=User.objects.get(username="admintest"))
 
     def test_sales_was_created(self):
@@ -37,7 +37,7 @@ class SalesModelTest(TestCase):
                                 quantity=30, unit_price=2000.0, stock_level=30,
                                 created_by=User.objects.get(username="admintest"))
         sale = Sales.objects.create(name=prod1.name,
-                                    item=prod1.id,
+                                    item=prod1,
                                     quantity=10, unit_price=2000.0, total_amount=4000.0,
                                     sold_by=User.objects.get(username="admintest"))
         self.assertEqual(str(sale), 'books')

@@ -190,15 +190,9 @@ class DeleteRoleView(DeleteView):
 class Home(TemplateView):
     template_name = 'accounts/home.html'
 
-@method_decorator(login_required, name="dispatch")
-
 @method_decorator(decorators, name='dispatch')
 class Setting(TemplateView):
     template_name = 'accounts/setting.html'
-
-@method_decorator(login_required, name="dispatch")
-class Sales(TemplateView):
-    template_name = 'accounts/sales.html'
 
 @method_decorator(login_required, name="dispatch")
 class Expense(TemplateView):
