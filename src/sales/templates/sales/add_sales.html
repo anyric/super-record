@@ -5,6 +5,14 @@
 {% load widget_tweaks %}
 
 {% block content%}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            selected = $("select option:selected").val();
+            if (selected == ""){
+                $("select option:selected").remove();
+            }
+        });
+    </script>
     <div class="modal fade" tabindex="-1" role="dialog" id="modal" style="z-index: 50px">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content"></div>
@@ -37,8 +45,8 @@
                     </div>
                 {% endfor %}
                 <div class="form-group justify-content-start">
-                    <button type="submit" class="btn-primary py-1">ADD ITEM</button>
-                    <a href="#close" type="reset" class="btn border border-primary text-primary px-3 py-1" rel="modal:close">CANCEL</a>
+                    <button type="submit" class="btn-primary py-1"><i class="fa fa-shopping-cart mr-1"></i>ADD TO CART</button>
+                    <button type="reset" class="border-primary text-primary px-3 py-1" rel="modal:close">CANCEL</button>
                 </div>
             </div>
         </form>
@@ -72,4 +80,18 @@
             </div>
         </div>
     {% endfor %}
+    {% if not total_sales.total_amount__sum is None  %}
+        <hr style="max-width: 70%;"/>
+        <div class="container" style="max-width: 70%;">
+            <div class="row text-muted border-bottom mb-2 font-weight-bold">
+                <div class="col-4 pl-3">Grand Total</div>
+                <div class="col-4 pl-5 text-right">{{ total_sales.total_amount__sum }}</div>
+                <div class="col-4 text-center">
+                    <a class="btn btn-sm text-primary text-uppercase"
+                    href="{% url 'checkout' %}"
+                    title="Checkout"
+                    rel="modal:open"><i class="fa fa-credit-card mr-1"></i>Checkout</a></div>
+            </div>
+        </div>
+    {% endif %}
 {%endblock%}

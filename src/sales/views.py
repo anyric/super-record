@@ -1,4 +1,6 @@
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
@@ -27,7 +29,10 @@ class SalesCreationView(CreateView, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sales'] = Sales.objects.all()
+        context['sales'] = Sales.objects.filter(status='pending').filter(
+            sold_by=self.request.user.id)
+        context['total_sales'] = Sales.objects.filter(status='pending').filter(
+            sold_by=self.request.user.id).aggregate(Sum('total_amount'))
 
         return context
 
@@ -40,7 +45,8 @@ class SalesCreationView(CreateView, ListView):
                 'item': int(request.POST.get('item')),
                 'quantity': request.POST.get('quantity', 0),
                 'unit_price': float(sale['unit_price']),
-                'total_amount': int(request.POST.get('quantity', 0)) * float(sale['unit_price']),
+                'total_amount': float(int(request.POST.get('quantity', 0)) * float(
+                    sale['unit_price'])),
                 'sold_by': request.user.id
             }
             form = self.form_class(data)
@@ -68,3 +74,33 @@ class DeleteSalesView(DeleteView):
     pk_url_kwarg = 'id'
     queryset = Sales.objects.all()
     success_url = reverse_lazy('sale')
+
+@method_decorator(login_required, name="dispatch")
+class CheckoutView(ListView):
+    queryset = Sales.objects.all().order_by('-id')
+    context_object_name = 'sales'
+    template_name = 'sales/checkout.html'
+    success_url = reverse_lazy('sale')
+    item_list = []
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_sales'] = Sales.objects.filter(status='pending').filter(
+            sold_by=self.request.user.id).aggregate(Sum('total_amount'))
+        context['balance'] = float(0.0)
+        self.item_list += Sales.objects.filter(status='pending').values()
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+
+        if request.method == 'POST' and request.POST.get('total_amount') and request.POST.get('amount_received'):
+            Sales.objects.filter(status='pending').filter(
+                sold_by=request.user.id).update(status='sold')
+            for item in self.item_list:
+                prod = Product.objects.get(name=item['name'])
+                stock_balance = prod.stock_level - item['quantity']
+                Product.objects.filter(name=item['name']).update(stock_level=stock_balance)
+
+            return HttpResponseRedirect(self.success_url)
+
+        return render(request, self.template_name)

@@ -1,0 +1,48 @@
+{% load widget_tweaks %}
+{% load static %}
+{% block content%}
+    <script type="text/javascript">
+        $("#index #checkout a").click(function() {
+            total_amount = $('#totalAmount').val();
+            received_amount = $('#amountReceived').val();
+            balance = parseFloat(received_amount) - parseFloat(total_amount)
+            if (received_amount != ""){
+                if (balance == 0){
+                    $('#balance').val(balance + '.0');
+                }else{
+                    $('#balance').val(parseFloat(balance));
+                }
+                $('#amountReceived').removeClass("border border-danger");
+            }else{
+                $('#amountReceived').addClass("border border-danger");
+            }
+        });
+    </script>
+    <form method="post" action="{% url 'checkout' %}">
+    {% csrf_token %}
+        <div class="modal-header my-0">
+            <h5 class="modal-title text-primary">PAYMENT FOR ITEMS</h5>
+        </div>
+
+        <div id="checkout" class="modal-body my-0">
+            <label for="totalAmount">Amount to Pay</label>
+            <div class="form-group">
+                <input type="text" readonly class="form-control pl-3 form-control-lg form-control-plaintext" name="total_amount" id="totalAmount" value="{{ total_sales.total_amount__sum }}">
+            </div>
+            <label for="amountReceived">Enter Amount Received</label>
+            <div class="form-group">
+                <input type="text" class="form-control form-control-lg" name="amount_received" id="amountReceived" placeholder="Enter amount received">
+            </div>
+            <label for="balance">Balance</label>
+            <div class="form-group">
+                <input type="text" readonly class="form-control pl-3 form-control-lg form-control-plaintext" name="balance" id="balance" value="{{ balance }}">
+            </div>
+            <div class="form-group text-right"><a id="compute" class="btn btn-primary text-white py-1 px-2">COMPUTE</a></div>
+        </div>
+
+        <div class="modal-footer form-group justify-content-start">
+            <button type="submit" class="btn-primary py-1">PAY NOW</button>
+            <a href="#close" type="reset" class="btn border border-primary text-primary px-3 py-1" rel="modal:close">CANCEL</a>
+        </div>
+    </form>
+{%endblock%}

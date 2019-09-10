@@ -4,10 +4,10 @@ from accounts.models import User
 class Purchase(models.Model):
     name = models.CharField(max_length=50,unique=True)
     description = models.TextField(max_length=100,unique=True)
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField()
     cost_price = models.FloatField(verbose_name='cost price')
-    current_stock_level = models.IntegerField(verbose_name='current stock level')
-    total_stock_level = models.IntegerField(verbose_name='total stock level')
+    current_stock_level = models.PositiveIntegerField(verbose_name='current stock level')
+    total_stock_level = models.PositiveIntegerField(verbose_name='total stock level')
     supplier_tel = models.CharField(max_length=13,unique=True)
     created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)

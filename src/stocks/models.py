@@ -4,9 +4,9 @@ from accounts.models import User
 class Product(models.Model):
     name = models.CharField(max_length=50,unique=True)
     description = models.TextField(max_length=100,unique=True)
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField()
     unit_price = models.FloatField(verbose_name='unit price')
-    stock_level = models.IntegerField(verbose_name='stock level')
+    stock_level = models.PositiveIntegerField(verbose_name='stock level')
     created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
