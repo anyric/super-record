@@ -52,6 +52,11 @@ class SalesModelTest(TestCase):
         field_label = sale._meta.get_field('item').verbose_name
         self.assertEquals(field_label, 'item')
 
+    def test_sales_status_label(self):
+        sale = Sales.objects.get(name="sugar")
+        field_label = sale._meta.get_field('status').verbose_name
+        self.assertEquals(field_label, 'status')
+
     def test_sales_quantity_label(self):
         sale = Sales.objects.get(name="sugar")
         field_label = sale._meta.get_field('quantity').verbose_name
@@ -70,6 +75,11 @@ class SalesModelTest(TestCase):
     def test_sales_name_max_length(self):
         sale = Sales.objects.get(name="sugar")
         max_length = sale._meta.get_field('name').max_length
+        self.assertEquals(max_length, 50)
+
+    def test_sales_status_max_length(self):
+        sale = Sales.objects.get(name="sugar")
+        max_length = sale._meta.get_field('status').max_length
         self.assertEquals(max_length, 50)
 
     def test_sales_count(self):

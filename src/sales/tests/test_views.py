@@ -68,7 +68,8 @@ class SalesEditViewTest(TestCase):
                                 created_by=User.objects.get(username="test"))
         self.sale = Sales.objects.create(name=self.prod.name,
                             item=self.prod,
-                            quantity=5, unit_price=self.prod.unit_price, total_amount=self.prod.unit_price * 5,
+                            quantity=5, unit_price=self.prod.unit_price,
+                            total_amount=self.prod.unit_price * 5,
                             sold_by=User.objects.get(username="test"))
         self.data = {
             'item': self.prod.id,
@@ -105,7 +106,8 @@ class SalesDeleteViewTest(TestCase):
                                 created_by=User.objects.get(username="test"))
         self.sale = Sales.objects.create(name=self.prod.name,
                             item=self.prod,
-                            quantity=5, unit_price=self.prod.unit_price, total_amount=self.prod.unit_price * 5,
+                            quantity=5, unit_price=self.prod.unit_price,
+                            total_amount=self.prod.unit_price * 5,
                             sold_by=User.objects.get(username="test"))
         self.username = 'test'
         self.password = '1234@test'
@@ -120,3 +122,41 @@ class SalesDeleteViewTest(TestCase):
         self.client.login(username=self.username, password=self.password)
         response = self.client.post(reverse_lazy('delete_sale', kwargs={'id':self.sale.id}))
         self.assertEqual(response.status_code, 302)
+
+class SalesCheckoutViewTest(TestCase):
+    def setUp(self):
+        test = User.objects.create_user("test", "test@info.com", "1234@test")
+        self.role = Role.objects.create(name="Manager", description="This is a manager role")
+        test.save()
+        self.role.save()
+        test.groups.add(Group.objects.get(name='Manager'))
+        self.prod = Product.objects.create(name="books", description="This is a stock of books",
+                                quantity=30, unit_price=2000.0, stock_level=30,
+                                created_by=User.objects.get(username="test"))
+        self.sale = Sales.objects.create(name=self.prod.name,
+                            item=self.prod,
+                            quantity=5, unit_price=self.prod.unit_price,
+                            total_amount=self.prod.unit_price * 5,
+                            sold_by=User.objects.get(username="test"))
+        self.data = {
+            'total_amount': 10000,
+            'amount_received': 15000
+        }
+        self.username = 'test'
+        self.password = '1234@test'
+
+    def test_sale_checkout_can_be_accessed(self):
+        self.client.login(username=self.username, password=self.password)
+        resp = self.client.get(reverse_lazy('checkout'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'sales/checkout.html')
+
+    def test_sale_checkout(self):
+        self.client.login(username=self.username, password=self.password)
+        response = self.client.post(reverse_lazy('checkout'), data=self.data)
+        self.assertEqual(response.status_code, 302)
+
+    def test_sale_checkout_by_get(self):
+        self.client.login(username=self.username, password=self.password)
+        response = self.client.post(reverse_lazy('checkout'))
+        self.assertEqual(response.status_code, 200)
