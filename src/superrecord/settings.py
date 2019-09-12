@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'stocks',
     'purchase',
     'sales',
+    'expenses',
     'crispy_forms',
     'bootstrap_modal_forms',
     'widget_tweaks',

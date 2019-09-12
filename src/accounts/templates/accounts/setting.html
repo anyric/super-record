@@ -20,6 +20,9 @@
                 }else if ($(this).attr("id") == 'sales'){
                     pageurl = page.replace("user",$(this).attr("id"));
                     pageurl = pageurl.replace("accounts", "sales");
+                }else if ($(this).attr("id") == 'expenses'){
+                    pageurl = page.replace("user",$(this).attr("id"));
+                    pageurl = pageurl.replace("accounts", "expenses");
                 }else{  
                     pageurl = page.replace("user",$(this).attr("id"));
                 }
@@ -29,12 +32,12 @@
     </script>
     <div class="container my-4" style="max-width: 90%;">
         <div id=disp class="sidenav">
-            <a id =user class="selected" href="#users"><i class="fa fa-users mr-1"></i>Users</a>
+            <a id =user class="selected" href="#users"></i>Users</a>
             <a id ="roles" href="#roles">Roles</a> 
             <a id="products" href="#products">Stocks</a>
             <a id="purchases" href="#purchases">Purchases</a>
             <a id="sales" href="#sales">Sales</a>
-            <a id="expense" href="#expense"><i class="fa fa-money mr-1"></i>Expenses</a>
+            <a id="expenses" href="#expense">Expenses</a>
         </div>
         <div class="embed-responsive main" style="max-width: 92%;">
             <div id='view'></div>

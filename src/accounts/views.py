@@ -193,8 +193,3 @@ class Home(TemplateView):
 @method_decorator(decorators, name='dispatch')
 class Setting(TemplateView):
     template_name = 'accounts/setting.html'
-
-@method_decorator(login_required, name="dispatch")
-class Expense(TemplateView):
-    template_name = 'accounts/expense.html'
-

@@ -156,6 +156,12 @@ class SalesCheckoutViewTest(TestCase):
         response = self.client.post(reverse_lazy('checkout'), data=self.data)
         self.assertEqual(response.status_code, 302)
 
+    def test_sale_checkout_reduce_prod(self):
+        self.client.login(username=self.username, password=self.password)
+        self.client.post(reverse_lazy('checkout'), data=self.data)
+        prod = Product.objects.get(name='books')
+        self.assertEqual(prod.stock_level, 25)
+
     def test_sale_checkout_by_get(self):
         self.client.login(username=self.username, password=self.password)
         response = self.client.post(reverse_lazy('checkout'))
