@@ -20,6 +20,9 @@
                 }else if ($(this).attr("id") == 'sales'){
                     pageurl = page.replace("user",$(this).attr("id"));
                     pageurl = pageurl.replace("accounts", "sales");
+                }else if ($(this).attr("id") == 'categories'){
+                    pageurl = page.replace("user",$(this).attr("id"));
+                    pageurl = pageurl.replace("accounts", "expenses");
                 }else if ($(this).attr("id") == 'expenses'){
                     pageurl = page.replace("user",$(this).attr("id"));
                     pageurl = pageurl.replace("accounts", "expenses");
@@ -37,6 +40,7 @@
             <a id="products" href="#products">Stocks</a>
             <a id="purchases" href="#purchases">Purchases</a>
             <a id="sales" href="#sales">Sales</a>
+            <a id="categories" href="#categories">Expenses Category</a>
             <a id="expenses" href="#expense">Expenses</a>
         </div>
         <div class="embed-responsive main" style="max-width: 92%;">

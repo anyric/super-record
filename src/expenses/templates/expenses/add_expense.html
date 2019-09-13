@@ -19,10 +19,10 @@
         </div>
     </div>
     <div class="container" style="max-width: 40%;">
-        <form method="post" action="{% url 'sale' %}">
+        <form method="post" action="{% url 'expense' %}">
         {% csrf_token %}
             <div class="modal-header my-0">
-                <h5 class="modal-title text-primary">SHOPPING CART</h5>
+                <h5 class="modal-title text-primary">ADD INCURRED EXPENSES</h5>
             </div>
 
             <div class="modal-body my-0">
@@ -33,7 +33,7 @@
                 </div>
                 {% for field in form %}
                     <div class="form-group">
-                        {% if field.name not in 'name,unit_price,total_amount,sold_by' %}
+                        {% if field.name not in ',created_by' %}
                             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                             {% render_field field class="form-control" placeholder=field.label %}
                             <div class="{% if field.errors %} invalid{% endif %}">
@@ -45,7 +45,7 @@
                     </div>
                 {% endfor %}
                 <div class="form-group justify-content-start">
-                    <button type="submit" class="btn-primary py-1"><i class="fa fa-shopping-cart mr-1"></i>ADD TO CART</button>
+                    <button type="submit" class="btn-primary py-1">ADD EXPENSE</button>
                     <button type="reset" class="border-primary text-primary px-3 py-1" rel="modal:close">CANCEL</button>
                 </div>
             </div>
@@ -54,43 +54,36 @@
     <hr style="max-width: 70%;"/>
     <div class="container" style="max-width: 70%;">
         <div class="row text-muted border-bottom mb-2 font-weight-bold">
-            <div class="col-4 pl-3">Name</div>
-            <div class="col-1 pl-0">Quantity</div>
-            <div class="col-2 pl-3">Unit Price</div>
-            <div class="col-2 pl-3">Total Amount</div>
+            <div class="col-3 pl-3">Category</div>
+            <div class="col-4 pl-0">Description</div>
+            <div class="col-2 pl-3">Amount</div>
             <div class="col-3 pl-3">Action</div>
         </div>
     </div>
-    {% for sale in sales %}
+    {% for expense in expenses %}
         <div class="container" style="max-width: 70%;">
             <div class="row highlight bg-light mb-2 py-2">
-                <div class="col-4 pl-3">{{ sale.name }}</div>
-                <div class="col-1 pl-0">{{ sale.quantity }}</div>
-                <div class="col-2 pl-3">{{ sale.unit_price }}</div>
-                <div class="col-2 pl-3">{{ sale.total_amount }}</div>
-                <div id=cart class="col-3 pl-3">
+                <div class="col-3 pl-3">{{ expense.category }}</div>
+                <div class="col-4 pl-0">{{ expense.description }}</div>
+                <div class="col-2 pl-3">{{ expense.amount }}</div>
+                <div class="col-3 pl-3">
                     <a class="btn btn-sm"
-                        title="Edit Sale"
-                        href="{% url 'edit_sale' sale.id %}"
+                        title="Edit Expense"
+                        href="{% url 'edit_expense' expense.id %}"
                         rel="modal:open"><i class="fa fa-edit mr-1"></i>Edit</a>
                     <a class="btn btn-sm text-danger"
-                        title="Delete Sale"
-                        href="{% url 'delete_sale' sale.id %}"
+                        title="Delete Expense"
+                        href="{% url 'delete_expense' expense.id %}"
                         rel="modal:open"><i class="fa fa-trash mr-1"></i>Delete</a></div>
             </div>
         </div>
     {% endfor %}
-    {% if not total_sales.total_amount__sum is None  %}
+    {% if not total_expenses.amount__sum is None  %}
         <hr style="max-width: 70%;"/>
         <div class="container mb-5" style="max-width: 70%;">
             <div class="row text-muted border-bottom mb-2 font-weight-bold">
-                <div class="col-4 pl-3">Grand Total</div>
-                <div class="col-4 pl-5 text-right">{{ total_sales.total_amount__sum }}</div>
-                <div class="col-4 text-center">
-                    <a class="btn btn-sm text-primary text-uppercase"
-                    href="{% url 'checkout' %}"
-                    title="Checkout"
-                    rel="modal:open"><i class="fa fa-credit-card mr-1"></i>Checkout</a></div>
+                <div class="col-7 pl-3">Grand Total</div>
+                <div class="col-5 pl-3">{{ total_expenses.amount__sum }}</div>
             </div>
         </div>
     {% endif %}

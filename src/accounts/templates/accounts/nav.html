@@ -44,7 +44,7 @@
                     <!-- <a id="prod" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'products' %}">Products</a>
                     <a id="purch" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'purchase' %}">Purchase</a> -->
                     <a id="cart" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'sale' %}"><i class="fa fa-shopping-cart mr-1"></i>Cart</a>
-                    <a id="expense" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="#"><i class="fa fa-money mr-1"></i>Expense</a>
+                    <a id="expense" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'expense' %}"><i class="fa fa-money mr-1"></i>Expense</a>
                     <a id="report" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="#"><i class='fas fa-envelope-open-text mr-1'></i>Reports</a>
                     {% if request.user.groups.all.0.name in  'Admin,Manager,General Manager' %}
                         <a id="sett" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'setting' %}"><i class="fa fa-cog fa-spin mr-1"></i>Settings</a>
