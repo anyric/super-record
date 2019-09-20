@@ -2,8 +2,76 @@
 
 {% block title%}Dashboard{%endblock%}
 {% block content %}
-    <div class="container mt-5">
-        <h1>This is the home page</h1>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var $roles_url = $('#index .roles').attr('data-url');
+            var $stocks_url = $('#index .stocks').attr('data-url');
+            var $sales_url = $('#index .sales').attr('data-url');
+            var $expenses_url = $('#index .expenses').attr('data-url');
+            $.ajax({
+                url: $roles_url,
+                dataType: 'json',
+                success: function (data) {
+                    if(data.series[0].data.length > 0){
+                        Highcharts.chart("roles", data);
+                        $('#index .highcharts-credits').remove()
+                    }
+                }
+            });
+            $.ajax({
+                url: $stocks_url,
+                dataType: 'json',
+                success: function (data) {
+                    if(data.series[0].data.length > 0){
+                        Highcharts.chart("stocks", data);
+                        $('#index .highcharts-credits').remove()
+                    }
+                }
+            });
+            $.ajax({
+                url: $sales_url,
+                dataType: 'json',
+                success: function (data) {
+                    if(data.series[0].data.length > 0){
+                        Highcharts.chart("sales", data);
+                        data.chart.type = 'column'
+                        Highcharts.chart("sales1", data);
+                        $('#index .highcharts-credits').remove()
+                    }
+                }
+            });
+            $.ajax({
+                url: $expenses_url,
+                dataType: 'json',
+                success: function (data) {
+                    if(data.series[0].data.length > 0){
+                        Highcharts.chart("expenses", data);
+                        data.chart.type = 'column'
+                        Highcharts.chart("expenses1", data);
+                        $('#index .highcharts-credits').remove()
+                    }
+                }
+            });
+        });
+    </script>
+    <div class="container my-4" style="max-width: 90%;">
+        <h5 class="text-uppercase font-weight-lighter text-primary">Analytics</h5>
+        <div class=" row mt-3 mx-0 p-0">
+            <div id="roles" class="roles" mt-5 name="roles" data-url="{% url 'roles_data' %}"></div>
+            <div id="stocks" class="stocks ml-5" mt-5 name="stocks" data-url="{% url 'stocks_data' %}"></div>
+        </div>
+    </div>
+    <div class="container my-5" style="max-width: 90%;">
+        <div class="row my-5 mx-0 p-0">
+            <div id="sales" class="sales" mt-5 name="sales" data-url="{% url 'sales_data' %}"></div>
+            <div id="sales1" class="sales1 ml-5" mt-5 name="sales1"></div>
+        </div>
+    </div>
+    <div class="container my-5" style="max-width: 90%;">
+        <div class="row my-5 mx-0 p-0">
+            <div id="expenses" class="expenses" mt-5 name="expenses" data-url="{% url 'expenses_data' %}"></div>
+            <div id="expenses1" class="expenses1 ml-5" mt-5 name="expenses1"></div>
+        </div>
     </div>
 {% endblock %}
 {% block footer %}
