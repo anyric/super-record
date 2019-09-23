@@ -1,5 +1,6 @@
 from django.urls import path, include
 from django.contrib import admin
+from helpers import graphs as graph_view
 from . import views as main_view
 
 urlpatterns = [
@@ -18,4 +19,8 @@ urlpatterns = [
     path('purchases/', include('purchase.urls')),
     path('sales/', include('sales.urls')),
     path('expenses/', include('expenses.urls')),
+    path('graphs/roles/', graph_view.roles_graph, name='roles_data'),
+    path('graphs/stocks/', graph_view.stocks_graph, name='stocks_data'),
+    path('graphs/sales/', graph_view.sales_graph, name='sales_data'),
+    path('graphs/expenses/', graph_view.expenses_graph, name='expenses_data')
 ]
