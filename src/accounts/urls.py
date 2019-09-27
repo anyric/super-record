@@ -16,5 +16,6 @@ urlpatterns = [
     path('activate/<int:id>/', user_views.ActivateView.as_view(), name='activate'),
     path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
-    path('setting/', user_views.Setting.as_view(), name='setting')
+    path('setting/', user_views.Setting.as_view(), name='setting'),
+    path('account_report/', user_views.AccountPDFView.as_view(), name='account_report')
 ]

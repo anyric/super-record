@@ -59,6 +59,7 @@ jobs:
             cd src/
             pipenv install --skip-lock
             . $(pipenv --venv)/bin/activate
+            pip install -U django-easy-pdf WeasyPrint
             coverage run manage.py test
             coverage xml
             python-codacy-coverage -r coverage.xml

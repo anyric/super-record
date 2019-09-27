@@ -24,7 +24,10 @@ ADD scripts/prod_start.sh /app/
 RUN chmod +x prod_start.sh
 
 # install app dependencies from the pipfile
-RUN pipenv install --skip-lock --system
+RUN pipenv install --skip-lock --system && \
+    apk --update --upgrade add gcc musl-dev jpeg-dev zlib-dev \
+    libffi-dev cairo-dev pango-dev gdk-pixbuf-dev && \
+    pip install -U django-easy-pdf
 
 CMD bash -c "source prod_start.sh"
 

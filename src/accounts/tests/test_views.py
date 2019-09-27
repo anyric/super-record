@@ -216,7 +216,6 @@ class RoleCreationViewTest(TestCase):
 
     def test_role_creation_with_no_login(self):
         self.test.groups.add(Group.objects.get(name='Manager'))
-        # self.client.login(username='test', password='1234@test')
         data={'name':'test','description':'This is a test role', 'user_perm':['change_user','view_user']}
         response = self.client.post(reverse_lazy('role'), data=data)
         self.assertEqual(response.status_code, 302)
@@ -271,3 +270,20 @@ class RoleEditViewTest(TestCase):
         self.client.login(username='test', password='1234@test')
         with self.assertRaises(ValueError):
             self.client.post(reverse_lazy('edit_role', kwargs={'id':self.role.id}))
+
+class AccountPDFViewTest(TestCase):
+    def setUp(self):
+        self.test = User.objects.create_user("test", "test@info.com", "1234@test")
+        self.test2 = User.objects.create_user("test2", "test2@info.com", "1234@test2")
+        role = Role.objects.create(name="Manager", description="This is a test role")
+        self.test.save()
+        role.save()
+        self.test2.save()
+
+    def test_account_pdf_can_be_accessed(self):
+        self.test.groups.add(Group.objects.get(name='Manager'))
+        self.test2.groups.add(Group.objects.get(name='Manager'))
+        self.client.login(username='test', password='1234@test')
+        response = self.client.get(reverse_lazy('account_report'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'accounts/account_report.html')

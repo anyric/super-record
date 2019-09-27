@@ -6,6 +6,8 @@ from django.views.generic import (
 from .forms import PurchaseCreationForm, EditPurchaseForm
 from .models import Purchase
 from decorators.decorators import group_required
+from easy_pdf.views import PDFTemplateView
+from helpers.generate_pdf import generate_report
 
 decorators = [group_required(['Admin','Manager','General Manager'])]
 @method_decorator(decorators, name="dispatch")
@@ -60,3 +62,20 @@ class DeletePurchaseView(DeleteView):
     queryset = Purchase.objects.all()
     success_url = reverse_lazy('setting')
 
+class PurchasePDFView(PDFTemplateView):
+    template_name = 'purchase/purchase_report.html'
+
+    def get_context_data(self, **kwargs):
+        dataset = Purchase.objects.values(
+                                'name','description',
+                                'quantity','cost_price',
+                                'current_stock_level',
+                                'total_stock_level',
+                                'supplier_tel').order_by('id')
+        context = super(PurchasePDFView, self).get_context_data(
+            pagesize='A4',
+            title='Purchase Report',
+            **kwargs
+        )
+
+        return generate_report(context, dataset, 'Purchases List')

@@ -1,11 +1,15 @@
+import os
 from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, UpdateView, DetailView, DeleteView, CreateView )
+from django.conf import settings
+from easy_pdf.views import PDFTemplateView
 from .forms import ProductCreationForm, EditProductForm
 from .models import Product
 from decorators.decorators import group_required
+from helpers.generate_pdf import generate_report
 
 decorators = [group_required(['Admin','Manager','General Manager'])]
 @method_decorator(decorators, name="dispatch")
@@ -58,3 +62,18 @@ class DeleteProductView(DeleteView):
     queryset = Product.objects.all()
     success_url = reverse_lazy('setting')
 
+class ProductPDFView(PDFTemplateView):
+    template_name = 'stocks/product_report.html'
+
+    def get_context_data(self, **kwargs):
+        dataset = Product.objects.values(
+                                'name','description',
+                                'quantity','unit_price',
+                                'stock_level').order_by('id')
+        context = super(ProductPDFView, self).get_context_data(
+            pagesize='A4',
+            title='Stock Report',
+            **kwargs
+        )
+
+        return generate_report(context, dataset, 'Products List')
