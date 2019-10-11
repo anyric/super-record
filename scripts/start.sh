@@ -1,5 +1,10 @@
 #!/bin/bash
 
+apk --update --upgrade add gcc musl-dev jpeg-dev zlib-dev \
+libffi-dev cairo-dev pango-dev gdk-pixbuf-dev
+
+pip install -U django-easy-pdf
+
 # wait for 5 seconds for database to be ready
 sleep 5
 
