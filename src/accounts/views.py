@@ -12,6 +12,8 @@ from django.contrib.auth.models import Group
 from .models import User, Role
 from .permissions import assign_permissions, remove_permissions
 from decorators.decorators import group_required
+from easy_pdf.views import PDFTemplateView
+from helpers.generate_pdf import generate_report
 
 decorators = [group_required(['Admin','Manager','General Manager'])]
 @method_decorator(decorators, name='dispatch')
@@ -39,7 +41,7 @@ class EditProfileView(UpdateView, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['roles'] = Group.objects.all().values_list('name', flat=True)
-    
+
         return context
       
     def post(self, request, *args, **kwargs):
@@ -193,3 +195,20 @@ class Home(TemplateView):
 @method_decorator(decorators, name='dispatch')
 class Setting(TemplateView):
     template_name = 'accounts/setting.html'
+
+class AccountPDFView(PDFTemplateView):
+    template_name = 'accounts/account_report.html'
+
+    def get_context_data(self, **kwargs):
+        dataset = User.objects.values(
+                                'username','groups','email',
+                                'is_admin','is_active').order_by('id')
+        context = super(AccountPDFView, self).get_context_data(
+            pagesize='A4',
+            title='Account Report',
+            **kwargs
+        )
+        for data in dataset:
+            data['groups'] = Role.objects.get(id=data['groups'])
+
+        return generate_report(context, dataset, 'Accounts List')

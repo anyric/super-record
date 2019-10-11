@@ -13,7 +13,7 @@ class UserCreationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'is_admin')
-    
+
     def clean_password2(self):
         """
         Check to ensure passwords are the same

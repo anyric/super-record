@@ -15,7 +15,7 @@ class ProductCreationViewTest(TestCase):
             'description': 'This is a test product',
             'quantity': 10,
             'unit_price': 1000.0,
-            'stock_level': 10, 
+            'stock_level': 10,
             'created_by': self.test.id
         }
 
@@ -78,7 +78,7 @@ class ProductEditViewTest(TestCase):
         self.client.login(username='test', password='1234@test')
         response = self.client.post(reverse_lazy('edit_product', kwargs={'id':self.prod.id}), data=self.data)
         self.assertEqual(response.status_code, 302)
-    
+
     def test_edit_product_by_get(self):
         self.client.login(username='test', password='1234@test')
         response = self.client.post(reverse_lazy('edit_product', kwargs={'id':self.prod.id}))
@@ -111,4 +111,26 @@ class ProductDeleteViewTest(TestCase):
         self.client.login(username='test', password='1234@test')
         response = self.client.post(reverse_lazy('delete_product', kwargs={'id':self.prod.id}))
         self.assertEqual(response.status_code, 302)
-        
+
+class ProductPDFViewTest(TestCase):
+    def setUp(self):
+        test = User.objects.create_user("test", "test@info.com", "1234@test")
+        self.role = Role.objects.create(name="Manager", description="This is a manager role")
+        test.save()
+        self.role.save()
+        test.groups.add(Group.objects.get(name='Manager'))
+        self.prod = Product.objects.create(name="bread", description="This is a stock of bread",
+                                quantity=20, unit_price=5000.0, stock_level=20, created_by=User.objects.get(username="test"))
+        self.data = {
+            'name': 'sugar',
+            'description': 'This is a stock of sugar',
+            'quantity': 20,
+            'unit_price': 4000.0,
+            'stock_level': 20
+        }
+
+    def test_product_pdf_can_be_accessed(self):
+        self.client.login(username='test', password='1234@test')
+        resp = self.client.get(reverse_lazy('product_report'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'stocks/product_report.html')

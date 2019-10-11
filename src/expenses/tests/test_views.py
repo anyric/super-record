@@ -224,3 +224,26 @@ class DeleteExpenseViewTest(TestCase):
         self.client.login(username=self.username, password=self.password)
         response = self.client.post(reverse_lazy('delete_expense', kwargs={'id':self.exp.id}))
         self.assertEqual(response.status_code, 302)
+
+class ExpensePDFViewTest(TestCase):
+    def setUp(self):
+        self.test = User.objects.create_user("test", "test@info.com", "1234@test")
+        self.role = Role.objects.create(name="Manager", description="This is a manager role")
+        self.test.save()
+        self.role.save()
+        self.test.groups.add(Group.objects.get(name='Manager'))
+        self.cat = ExpenseCategory.objects.create(name='Transport',
+                        description = "This is an expense on cost of transportation",
+                        created_by=User.objects.get(username="test"))
+        self.exp = Expenses.objects.create(category=self.cat,
+                                description="This is the cost of transporting items from kampala.",
+                                amount=10000.0,
+                                created_by=self.test)
+        self.username = 'test'
+        self.password = '1234@test'
+
+    def test_expense_pdf_can_be_accessed(self):
+        self.client.login(username=self.username, password=self.password)
+        resp = self.client.get(reverse_lazy('expenses_report'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'expenses/expenses_report.html')

@@ -166,3 +166,27 @@ class SalesCheckoutViewTest(TestCase):
         self.client.login(username=self.username, password=self.password)
         response = self.client.post(reverse_lazy('checkout'))
         self.assertEqual(response.status_code, 200)
+
+class SalesPDFViewTest(TestCase):
+    def setUp(self):
+        self.test = User.objects.create_user("test", "test@info.com", "1234@test")
+        self.role = Role.objects.create(name="Manager", description="This is a manager role")
+        self.test.save()
+        self.role.save()
+        self.test.groups.add(Group.objects.get(name='Manager'))
+        self.prod = Product.objects.create(name="books", description="This is a stock of books",
+                                quantity=30, unit_price=2000.0, stock_level=30,
+                                created_by=User.objects.get(username="test"))
+        self.sale = Sales.objects.create(name=self.prod.name,
+                            item=self.prod,
+                            quantity=5, unit_price=self.prod.unit_price,
+                            total_amount=self.prod.unit_price * 5,
+                            sold_by=User.objects.get(username="test"))
+        self.username = 'test'
+        self.password = '1234@test'
+
+    def test_sales_pdf_can_be_accessed(self):
+        self.client.login(username=self.username, password=self.password)
+        resp = self.client.get(reverse_lazy('sales_report'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'sales/sales_report.html')

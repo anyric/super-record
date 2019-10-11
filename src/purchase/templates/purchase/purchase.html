@@ -45,7 +45,7 @@
                 <div class="col-1 px-0">Cost Price</div>
                 <div class="col-1 px-0">Current Stock Level</div>
                 <div class="col-1 px-0">Total Stock Level</div>
-                <div class="col-2 px-0">Supplier Phone</div>
+                <div class="col-2 px-0">Supplier Tel.</div>
                 <div class="col-1 pl-4">Action</div>
             </div>
             {% for purchase in purchase_list %}
@@ -57,7 +57,7 @@
                         <div class="col-1 px-0">{{ purchase.cost_price }}</div>
                         <div class="col-1 px-0">{{ purchase.current_stock_level }}</div>
                         <div class="col-1 px-0">{{ purchase.total_stock_level }}</div>
-                        <div class="col-2 px-0">{{ purchase.supplier_tel }}</div>
+                        <div class="col-2 px-0">+{{ purchase.supplier_tel }}</div>
                         <div class="col-1 px-0">
                             <a class="btn btn-sm"
                                 title="Edit Purchase"

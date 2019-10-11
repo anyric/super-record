@@ -7,9 +7,12 @@ from django.views.generic import (
     ListView, UpdateView, DetailView, DeleteView, CreateView)
 from decorators.decorators import group_required
 from expenses.models import ExpenseCategory, Expenses
+from accounts.models import User
 from expenses.forms import (
     EditCategoryForm, EditExpenseForm,
     CategoryCreationForm, ExpenseCreationForm)
+from easy_pdf.views import PDFTemplateView
+from helpers.generate_pdf import generate_report
 
 decorators = [group_required(['Admin','Manager','General Manager'])]
 @method_decorator(login_required, name="dispatch")
@@ -109,3 +112,23 @@ class DeleteExpenseView(DeleteView):
     pk_url_kwarg = 'id'
     queryset = Expenses.objects.all()
     success_url = reverse_lazy('expense')
+
+class ExpensesPDFView(PDFTemplateView):
+    template_name = 'expenses/expenses_report.html'
+
+    def get_context_data(self, **kwargs):
+        dataset = Expenses.objects.values(
+                                'category','description',
+                                'amount',
+                                'created_by',
+                                'created_at').order_by('id')
+        context = super(ExpensesPDFView, self).get_context_data(
+            pagesize='A4',
+            title='Expenses Report',
+            **kwargs
+        )
+        for data in dataset:
+            data['created_by'] = User.objects.get(id=data['created_by'])
+            data['category'] = ExpenseCategory.objects.get(id=data['category'])
+
+        return generate_report(context, dataset, 'Expenses List')

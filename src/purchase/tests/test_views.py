@@ -128,3 +128,33 @@ class PurchaseDeleteViewTest(TestCase):
         self.client.login(username=self.username, password=self.password)
         response = self.client.post(reverse_lazy('delete_purchase', kwargs={'id':self.purch.id}))
         self.assertEqual(response.status_code, 302)
+
+class PurchasePDFViewTest(TestCase):
+    def setUp(self):
+        test = User.objects.create_user("test", "test@info.com", "1234@test")
+        self.role = Role.objects.create(name="Manager", description="This is a manager role")
+        test.save()
+        self.role.save()
+        test.groups.add(Group.objects.get(name='Manager'))
+        self.purch = Purchase.objects.create(name="bread", description="This is a stock of bread",
+                                quantity=20, cost_price=5000.0, current_stock_level=20,
+                                total_stock_level=40,
+                                supplier_tel='256710000000',
+                                created_by=User.objects.get(username="test"))
+        self.data = {
+            'name': 'sugar',
+            'description': 'This is a stock of sugar',
+            'quantity': 20,
+            'cost_price': 4000.0,
+            'current_stock_level': 20,
+            'total_stock_level': 40,
+            'supplier_tel': '256710000001'
+        }
+        self.username = 'test'
+        self.password = '1234@test'
+
+    def test_purchase_pdf_can_be_accessed(self):
+        self.client.login(username=self.username, password=self.password)
+        resp = self.client.get(reverse_lazy('purchase_report'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'purchase/purchase_report.html')

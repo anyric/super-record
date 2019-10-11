@@ -7,4 +7,5 @@ urlpatterns = [
     path('edit_sale/<int:id>/', sales_views.EditSalesView.as_view(), name='edit_sale'),
     path('delete_sale/<int:id>/', sales_views.DeleteSalesView.as_view(), name='delete_sale'),
     path('checkout/', sales_views.CheckoutView.as_view(), name='checkout'),
+    path('sales_report/', sales_views.SalesPDFView.as_view(), name='sales_report')
 ]

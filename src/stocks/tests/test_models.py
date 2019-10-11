@@ -14,7 +14,7 @@ class ProductModelTest(TestCase):
     def test_product_was_created(self):
         sugar = Product.objects.get(name="sugar")
         bread = Product.objects.get(name="bread")
-       
+
         self.assertEqual(sugar.name, "sugar")
         self.assertEqual(sugar.description, "This is a stock of kakira sugar")
 
@@ -30,7 +30,7 @@ class ProductModelTest(TestCase):
         prod = Product.objects.get(name="sugar")
         field_label = prod._meta.get_field('name').verbose_name
         self.assertEquals(field_label, 'name')
-    
+
     def test_product_description_label(self):
         prod = Product.objects.get(name="sugar")
         field_label = prod._meta.get_field('description').verbose_name

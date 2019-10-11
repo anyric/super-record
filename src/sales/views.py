@@ -9,6 +9,9 @@ from django.views.generic import (
 from stocks.models import Product
 from .forms import SalesCreationForm, EditSalesForm
 from .models import Sales
+from accounts.models import User
+from easy_pdf.views import PDFTemplateView
+from helpers.generate_pdf import generate_report
 
 @method_decorator(login_required, name="dispatch")
 class SalesListView(ListView):
@@ -104,3 +107,22 @@ class CheckoutView(ListView):
             return HttpResponseRedirect(self.success_url)
 
         return render(request, self.template_name)
+
+class SalesPDFView(PDFTemplateView):
+    template_name = 'sales/sales_report.html'
+
+    def get_context_data(self, **kwargs):
+        dataset = Sales.objects.values(
+                                'name','quantity','unit_price',
+                                'total_amount',
+                                'sold_by',
+                                'sold_at').order_by('id')
+        context = super(SalesPDFView, self).get_context_data(
+            pagesize='A4',
+            title='Sales Report',
+            **kwargs
+        )
+        for data in dataset:
+            data['sold_by'] = User.objects.get(id=data['sold_by'])
+
+        return generate_report(context, dataset, 'Sales List')
