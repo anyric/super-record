@@ -21,6 +21,18 @@ class AccountListView(ListView):
     context_object_name = 'account_list'
     template_name = 'reports/accounts.html'
 
+class SearchUserView(ListView):
+    queryset = User.objects.all().order_by('id')
+    paginate_by = 10
+    context_object_name = 'account_list'
+    template_name = 'reports/accounts.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['account_list'] = User.objects.filter(username__icontains=self.request.GET.get('q', None))
+
+        return context
+
 @method_decorator(login_required, name='dispatch')
 class RolesListView(ListView):
     queryset = Role.objects.all().order_by('id')
@@ -35,6 +47,18 @@ class StocksListView(ListView):
     context_object_name = 'stocks'
     template_name = 'reports/stocks.html'
 
+class SearchStockView(ListView):
+    queryset = Product.objects.all().order_by('id')
+    paginate_by = 10
+    context_object_name = 'stocks'
+    template_name = 'reports/stocks.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stocks'] = Product.objects.filter(name__icontains=self.request.GET.get('q', None))
+
+        return context
+
 @method_decorator(login_required, name='dispatch')
 class PurchaseListView(ListView):
     queryset = Purchase.objects.all().order_by('id')
@@ -42,12 +66,36 @@ class PurchaseListView(ListView):
     context_object_name = 'purchases'
     template_name = 'reports/purchases.html'
 
+class SearchPurchaseView(ListView):
+    queryset = Purchase.objects.all().order_by('id')
+    paginate_by = 10
+    context_object_name = 'purchases'
+    template_name = 'reports/purchases.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['purchases'] = Purchase.objects.filter(name__icontains=self.request.GET.get('q', None))
+
+        return context
+
 @method_decorator(login_required, name='dispatch')
 class SalesListView(ListView):
     queryset = Sales.objects.all().order_by('id')
     paginate_by = 10
     context_object_name = 'sales_list'
     template_name = 'reports/sales.html'
+
+class SearchSalesView(ListView):
+    queryset = Sales.objects.all().order_by('id')
+    paginate_by = 10
+    context_object_name = 'sales_list'
+    template_name = 'reports/sales.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sales_list'] = Sales.objects.filter(name__icontains=self.request.GET.get('q', None))
+
+        return context
 
 @method_decorator(login_required, name='dispatch')
 class CategoryListView(ListView):
@@ -62,3 +110,15 @@ class ExpensesListView(ListView):
     paginate_by = 10
     context_object_name = 'expenses_list'
     template_name = 'reports/expenses.html'
+
+class SearchExpensesView(ListView):
+    queryset = Expenses.objects.all().order_by('id')
+    paginate_by = 10
+    context_object_name = 'expenses_list'
+    template_name = 'reports/expenses.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['expenses_list'] = Expenses.objects.filter(description__icontains=self.request.GET.get('q', None))
+
+        return context

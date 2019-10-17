@@ -11,11 +11,11 @@ def load_setup_data(apps,schema_editor):
     """
     DefaultRole = apps.get_model("accounts", "Role")
     DefaultUser = apps.get_model("accounts", "User")
-    
+
     role = DefaultRole.objects.create(name="Admin", description="This is a system administrator role.")
     user = DefaultUser.objects.create(
-        username="admin", 
-        email="admin@info.com", 
+        username="admin",
+        email="admin@info.com",
         password=make_password("1234@admin"),
         is_admin=True
         )
