@@ -28,7 +28,7 @@ class UserCreationForm(forms.ModelForm):
             raise forms.ValidationError("Passwords can't be empty")
 
         return password2
-    
+
     def save(self, commit=True):
         """
         Save password in hashed form

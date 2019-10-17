@@ -33,8 +33,7 @@ class EditProfileView(UpdateView, DetailView):
     old_role = []
 
     def get(self, request, *args, **kwargs):
-        self.id = kwargs['id']
-        self.user = User.objects.get(id=self.id)
+        self.user = User.objects.get(id=kwargs['id'])
 
         return super().get(request, *args, **kwargs)
 
@@ -45,8 +44,7 @@ class EditProfileView(UpdateView, DetailView):
         return context
       
     def post(self, request, *args, **kwargs):
-        id = kwargs['id']
-        user = User.objects.get(id=id)
+        user = User.objects.get(id=kwargs['id'])
         self.old_role += user.groups.all().values_list('name', flat=True)
         new_role = request.POST.get('role', None)
 
@@ -90,7 +88,7 @@ class SignUpView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['roles'] = Group.objects.all().values_list('name', flat=True)
-    
+
         return context
 
     def post(self, request, *args, **kwargs):

@@ -1,12 +1,44 @@
 {% load static %}
-
+<script>
+    $(document).ready(function() {
+        $("input").change(function() {
+            username = $(this).val();
+            if (username != ""){
+                pageurl = href="{% url 'search_stock' %}?q="+username;
+                $("#view").load(pageurl);
+            }else{
+                $("#view").load("{% url 'stock_list' %}");
+            }
+        });
+        $("button").click(function() {
+            $("#view").load("{% url 'stock_list' %}");
+        });
+    });
+</script>
 <div class="container my-2">
     <div class="row navbar navbar-light mb-3 text-monospace ">
         <h5 class="text-uppercase font-weight-lighter">Product List</h5>
-        <a class="nav-link border border-primary px-4 py-1 text-primary"
-            href="{% url 'product_report' %}"
-            title="Product Report"><i class="fa fa-file-pdf-o mr-1"></i>Export</a>
+        {% if stocks %}  
+            <div class="form-row">
+                <div class="col col-md-8">
+                    <input type="text" name="search" class="form-control" placeholder="Enter search name"> 
+                </div>
+                <div class="col col-md-2">
+                    <button type="button" class="btn btn-outline-primary">Clear Filter</button>
+                </div>
+            </div> 
+            <a class="nav-link border border-primary px-4 py-1 text-primary"
+                href="{% url 'product_report' %}"
+                title="Product Report"><i class="fa fa-file-pdf-o mr-1"></i>Export</a>    
+        {% endif %}
     </div>
+    {% if not stocks %}
+        <div class="d-flex text-monospace justify-content-center">
+            <p class="">No records found! <br /><br />
+            <button type="button" class="btn btn-outline-primary">Clear Filter</button>
+            </p>
+        </div>
+    {% endif %}
     <style type="text/css">
         .parent .row:hover {
             background-color: gray;
@@ -15,11 +47,7 @@
     </style>
     <!-- content -->
     <div class="text-monospace">
-        {% if not stocks %}        
-            <div class="d-flex justify-content-center">
-                <p>No products available yet!</p>
-            </div>
-        {% else %}
+        {% if stocks %}
             <div class="row text-muted border-bottom mb-2">
                 <div class="col-3 pl-5">Name</div>
                 <div class="col-6 px-0">Description</div>
