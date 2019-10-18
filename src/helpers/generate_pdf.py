@@ -1,5 +1,4 @@
 from datetime import datetime
-from easy_pdf.views import PDFTemplateView
 
 today = datetime.now()
 company_name = "SUPERRECORD MANAGEMENT SYSTEM"

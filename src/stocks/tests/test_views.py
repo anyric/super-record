@@ -80,7 +80,7 @@ class ProductEditViewTest(TestCase):
         self.client.login(username=self.username, password=self.password)
         response = self.client.post(reverse_lazy('edit_product', kwargs={'id':self.prod.id}), data=self.data)
         self.assertEqual(response.status_code, 302)
-    
+
     def test_edit_product_by_get(self):
         self.client.login(username=self.username, password=self.password)
         response = self.client.post(reverse_lazy('edit_product', kwargs={'id':self.prod.id}))

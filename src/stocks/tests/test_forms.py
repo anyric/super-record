@@ -12,7 +12,7 @@ class ProductCreationFormTest(TestCase):
                 'description': 'This is a stock of kakira sugar',
                 'quantity': 10,
                 'unit_price': 4000.0,
-                'stock_level': 10, 
+                'stock_level': 10,
                 'created_by': self.test.id
             }
         )
@@ -58,11 +58,11 @@ class EditProductFormTest(TestCase):
     def test_product_name_field_label(self):
         self.assertFalse(self.prod_creater.fields['name'].label == None)
         self.assertFalse(self.prod_creater.fields['name'].label == 'name')
-    
+
     def test_product_description_field_label(self):
         self.assertFalse(self.prod_creater.fields['description'].label == None)
         self.assertFalse(self.prod_creater.fields['description'].label == 'description')
-    
+
     def test_product_quantity_field_label(self):
         self.assertFalse(self.prod_creater.fields['quantity'].label == None)
         self.assertFalse(self.prod_creater.fields['quantity'].label == 'quantity')

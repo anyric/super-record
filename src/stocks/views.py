@@ -1,10 +1,8 @@
-import os
 from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, UpdateView, DetailView, DeleteView, CreateView )
-from django.conf import settings
 from easy_pdf.views import PDFTemplateView
 from .forms import ProductCreationForm, EditProductForm
 from .models import Product

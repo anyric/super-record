@@ -14,7 +14,7 @@ class ProductModelTest(TestCase):
     def test_product_was_created(self):
         sugar = Product.objects.get(name="sugar")
         bread = Product.objects.get(name="bread")
-       
+
         self.assertEqual(sugar.name, "sugar")
         self.assertEqual(sugar.description, "This is a stock of kakira sugar")
 
