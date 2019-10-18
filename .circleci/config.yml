@@ -24,8 +24,7 @@ jobs:
     working_directory: ~/super-record
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: True
+      - setup_remote_docker
       - *attach_workspace
       - run:
           name: Build application
@@ -35,8 +34,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: True
+      - setup_remote_docker
       - *attach_workspace
       - run:
           name: Wait for postgres to be ready
