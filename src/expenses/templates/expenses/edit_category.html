@@ -16,13 +16,23 @@
 
             {% for field in form %}
                 <div class="form-group">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {% render_field field class="form-control" placeholder=field.label %}
-                    <div class="{% if field.errors %} invalid{% endif %}">
-                        {% for error in field.errors %}
-                            <p class="help-block">{{ error }}</p>
-                        {% endfor %}
-                    </div>
+                    {% if field.name in ',description' %}
+                        <div class="{% if field.errors %} invalid{% endif %}">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {% render_field field class="form-control" rows="5" placeholder=field.label %}
+                            {% for error in field.errors %}
+                                <p class="help-block">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {% render_field field class="form-control" placeholder=field.label %}
+                        <div class="{% if field.errors %} invalid{% endif %}">
+                            {% for error in field.errors %}
+                                <p class="help-block">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

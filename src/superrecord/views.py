@@ -122,3 +122,7 @@ class SearchExpensesView(ListView):
         context['expenses_list'] = Expenses.objects.filter(description__icontains=self.request.GET.get('q', None))
 
         return context
+
+@method_decorator(login_required, name='dispatch')
+class TransactionsView(TemplateView):
+    template_name = 'transactions/transactions.html'

@@ -10,7 +10,7 @@ WORKDIR /app
 RUN apk update && apk add --no-cache bash \
     && apk add --virtual build-deps gcc python3-dev musl-dev \
     && apk add postgresql-dev \
-    && pip install psycopg2 \
+    && pip install psycopg2==2.8.3 \
     && apk del build-deps \
     && pip install pipenv gunicorn
 

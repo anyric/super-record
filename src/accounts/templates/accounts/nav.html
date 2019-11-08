@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block header %}
-    <div class="site-header sticky-top text-monospace">
+    <div class="site-header text-monospace">
         <div class="d-flex flex-column py-3 bg-dark flex-md-row">
             <ul class=" container nav justify-content-between">
                 <li class="nav-item">
@@ -41,10 +41,7 @@
             <nav class="border border-bottom py-3 shadow-sm bg-light">
                 <div id="menu" class="container d-flex justify-content-center text-dark my-0">
                     <a id="dash" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'home' %}"><i class="fa fa-dashboard mr-1"></i>Dashboard</a>
-                    <!-- <a id="prod" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'products' %}">Products</a>
-                    <a id="purch" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'purchase' %}">Purchase</a> -->
-                    <a id="cart" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'sale' %}"><i class="fa fa-shopping-cart mr-1"></i>Cart</a>
-                    <a id="expense" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'expense' %}"><i class="fa fa-money-bill mr-1"></i>Expense</a>
+                    <a id="transactions" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'transactions' %}"><i class="fas fa-handshake mr-1"></i>Transactions</a>
                     <a id="reports" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'reports' %}"><i class='fas fa-envelope-open-text mr-1'></i>Reports</a>
                     {% if request.user.groups.all.0.name in  'Admin,Manager,General Manager' %}
                         <a id="sett" class="px-0 py-2 mx-3 d-none nav-link d-md-inline-block text-right text-muted" href="{% url 'setting' %}"><i class="fa fa-cog fa-spin mr-1"></i>Settings</a>
