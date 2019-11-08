@@ -18,11 +18,11 @@ class CategoryCreationFormTest(TestCase):
         )
 
     def test_expense_category_name_field_label(self):
-        self.assertFalse(self.cat_creater.fields['name'].label == None)
+        self.assertFalse(self.cat_creater.fields['name'].label is None)
         self.assertFalse(self.cat_creater.fields['name'].label == 'name')
 
     def test_expense_category_description_field_label(self):
-        self.assertFalse(self.cat_creater.fields['description'].label == None)
+        self.assertFalse(self.cat_creater.fields['description'].label is None)
         self.assertFalse(self.cat_creater.fields['description'].label == 'description')
 
     def test_expense_category_form_is_valid(self):
@@ -44,11 +44,11 @@ class EditCategoryFormTest(TestCase):
         )
 
     def test_expense_category_name_field_label(self):
-        self.assertFalse(self.cat_creater.fields['name'].label == None)
+        self.assertFalse(self.cat_creater.fields['name'].label is None)
         self.assertFalse(self.cat_creater.fields['name'].label == 'name')
 
     def test_expense_category_description_field_label(self):
-        self.assertFalse(self.cat_creater.fields['description'].label == None)
+        self.assertFalse(self.cat_creater.fields['description'].label is None)
         self.assertFalse(self.cat_creater.fields['description'].label == 'description')
 
     def test_expense_category_form_is_valid(self):
@@ -74,11 +74,11 @@ class ExpenseCreationFormTest(TestCase):
         )
 
     def test_expense_amount_field_label(self):
-        self.assertFalse(self.cat_creater.fields['amount'].label == None)
+        self.assertFalse(self.cat_creater.fields['amount'].label is None)
         self.assertFalse(self.cat_creater.fields['amount'].label == 'amount')
 
     def test_expense_description_field_label(self):
-        self.assertFalse(self.cat_creater.fields['description'].label == None)
+        self.assertFalse(self.cat_creater.fields['description'].label is None)
         self.assertFalse(self.cat_creater.fields['description'].label == 'description')
 
     def test_expense_form_is_valid(self):
@@ -99,11 +99,11 @@ class EditExpenseFormTest(TestCase):
         )
 
     def test_expense_amount_field_label(self):
-        self.assertFalse(self.cat_creater.fields['amount'].label == None)
+        self.assertFalse(self.cat_creater.fields['amount'].label is None)
         self.assertFalse(self.cat_creater.fields['amount'].label == 'amount')
 
     def test_expense_description_field_label(self):
-        self.assertFalse(self.cat_creater.fields['description'].label == None)
+        self.assertFalse(self.cat_creater.fields['description'].label is None)
         self.assertFalse(self.cat_creater.fields['description'].label == 'description')
 
     def test_expense_form_is_valid(self):

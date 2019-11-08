@@ -51,7 +51,7 @@ class EditProfileView(UpdateView, DetailView):
         if len(self.old_role) > 0:
             user.groups.remove(Group.objects.get(name=self.old_role[0]))
 
-        if new_role != None:
+        if new_role is not None:
             user.groups.add(Group.objects.get(name=new_role))
 
         return super().post(request, *args, **kwargs)

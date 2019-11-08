@@ -22,23 +22,23 @@ class SalesCreationFormTest(TestCase):
         )
 
     def test_sale_name_field_label(self):
-        self.assertFalse(self.sale_creater.fields['name'].label == None)
+        self.assertFalse(self.sale_creater.fields['name'].label is None)
         self.assertFalse(self.sale_creater.fields['name'].label == 'name')
 
     def test_sale_item_field_label(self):
-        self.assertFalse(self.sale_creater.fields['item'].label == None)
+        self.assertFalse(self.sale_creater.fields['item'].label is None)
         self.assertFalse(self.sale_creater.fields['item'].label == 'item')
 
     def test_sale_quantity_field_label(self):
-        self.assertFalse(self.sale_creater.fields['quantity'].label == None)
+        self.assertFalse(self.sale_creater.fields['quantity'].label is None)
         self.assertFalse(self.sale_creater.fields['quantity'].label == 'quantity')
 
     def test_sale_unit_price_field_label(self):
-        self.assertFalse(self.sale_creater.fields['unit_price'].label == None)
+        self.assertFalse(self.sale_creater.fields['unit_price'].label is None)
         self.assertFalse(self.sale_creater.fields['unit_price'].label == 'unit price')
 
     def test_sale_total_amount_field_label(self):
-        self.assertFalse(self.sale_creater.fields['total_amount'].label == None)
+        self.assertFalse(self.sale_creater.fields['total_amount'].label is None)
         self.assertFalse(self.sale_creater.fields['total_amount'].label == 'total amount')
 
     def test_form_is_valid(self):
@@ -66,11 +66,11 @@ class EditSalesFormTest(TestCase):
         )
 
     def test_sale_item_field_label(self):
-        self.assertFalse(self.sale_creater.fields['item'].label == None)
+        self.assertFalse(self.sale_creater.fields['item'].label is None)
         self.assertFalse(self.sale_creater.fields['item'].label == 'item')
 
     def test_sale_quantity_field_label(self):
-        self.assertFalse(self.sale_creater.fields['quantity'].label == None)
+        self.assertFalse(self.sale_creater.fields['quantity'].label is None)
         self.assertFalse(self.sale_creater.fields['quantity'].label == 'quantity')
 
     def test_form_is_valid(self):

@@ -19,21 +19,21 @@ class UserRegistrationFormTest(TestCase):
         )
 
     def test_username_field_label(self):
-        self.assertFalse(self.user_register.fields['username'].label == None)
+        self.assertFalse(self.user_register.fields['username'].label is None)
         self.assertTrue(self.user_register.fields['username'].label == 'Username')
     
     def test_email_field_label(self):
-        self.assertTrue(self.user_register.fields['email'].label == None)
+        self.assertTrue(self.user_register.fields['email'].label is None)
         self.assertFalse(self.user_register.fields['email'].label == 'Email')
 
     def test_password_field_label(self):
-        self.assertFalse(self.user_register.fields['password1'].label == None)
+        self.assertFalse(self.user_register.fields['password1'].label is None)
         self.assertTrue(self.user_register.fields['password1'].label == 'Password')
-        self.assertFalse(self.user_register.fields['password2'].label == None)
+        self.assertFalse(self.user_register.fields['password2'].label is None)
         self.assertTrue(self.user_register.fields['password2'].label == 'Confirm Password')
 
     def test_is_admin_field_label(self):
-        self.assertFalse(self.user_register.fields['is_admin'].label == None)
+        self.assertFalse(self.user_register.fields['is_admin'].label is None)
         self.assertTrue(self.user_register.fields['is_admin'].label == 'Is Admin')
 
     def test_form_is_valid(self):
@@ -97,15 +97,15 @@ class EditProfileFormTest(TestCase):
             }
         )
     def test_username_field_label(self):
-        self.assertFalse(self.user_edit.fields['username'].label == None)
+        self.assertFalse(self.user_edit.fields['username'].label is None)
         self.assertTrue(self.user_edit.fields['username'].label == 'Username')
     
     def test_email_field_label(self):
-        self.assertFalse(self.user_edit.fields['email'].label == None)
+        self.assertFalse(self.user_edit.fields['email'].label is None)
         self.assertFalse(self.user_edit.fields['email'].label == 'Email')
 
     def test_password_field_label(self):
-        self.assertTrue(self.user_edit.fields['password'].label == None)
+        self.assertTrue(self.user_edit.fields['password'].label is None)
         self.assertFalse(self.user_edit.fields['password'].label == 'Password')
 
     def test_form_is_not_valid(self):
@@ -124,11 +124,11 @@ class RoleCreationFormTest(TestCase):
         )
 
     def test_role_name_field_label(self):
-        self.assertFalse(self.role_creater.fields['name'].label == None)
+        self.assertFalse(self.role_creater.fields['name'].label is None)
         self.assertFalse(self.role_creater.fields['name'].label == 'name')
     
     def test_role_description_field_label(self):
-        self.assertFalse(self.role_creater.fields['description'].label == None)
+        self.assertFalse(self.role_creater.fields['description'].label is None)
         self.assertFalse(self.role_creater.fields['description'].label == 'description')
 
     def test_form_is_valid(self):
@@ -150,11 +150,11 @@ class RoleEditFormTest(TestCase):
         )
 
     def test_role_name_field_label(self):
-        self.assertFalse(self.role_creater.fields['name'].label == None)
+        self.assertFalse(self.role_creater.fields['name'].label is None)
         self.assertFalse(self.role_creater.fields['name'].label == 'name')
     
     def test_role_description_field_label(self):
-        self.assertFalse(self.role_creater.fields['description'].label == None)
+        self.assertFalse(self.role_creater.fields['description'].label is None)
         self.assertFalse(self.role_creater.fields['description'].label == 'description')
     
     def test_form_is_valid(self):

@@ -20,31 +20,31 @@ class PurchaseCreationFormTest(TestCase):
         )
 
     def test_purchase_name_field_label(self):
-        self.assertFalse(self.purch_creater.fields['name'].label == None)
+        self.assertFalse(self.purch_creater.fields['name'].label is None)
         self.assertFalse(self.purch_creater.fields['name'].label == 'name')
 
     def test_purchase_description_field_label(self):
-        self.assertFalse(self.purch_creater.fields['description'].label == None)
+        self.assertFalse(self.purch_creater.fields['description'].label is None)
         self.assertFalse(self.purch_creater.fields['description'].label == 'description')
 
     def test_purchase_quantity_field_label(self):
-        self.assertFalse(self.purch_creater.fields['quantity'].label == None)
+        self.assertFalse(self.purch_creater.fields['quantity'].label is None)
         self.assertFalse(self.purch_creater.fields['quantity'].label == 'quantity')
 
     def test_purchase_cost_price_field_label(self):
-        self.assertFalse(self.purch_creater.fields['cost_price'].label == None)
+        self.assertFalse(self.purch_creater.fields['cost_price'].label is None)
         self.assertFalse(self.purch_creater.fields['cost_price'].label == 'cost_price')
 
     def test_purchase_current_stock_level_field_label(self):
-        self.assertFalse(self.purch_creater.fields['current_stock_level'].label == None)
+        self.assertFalse(self.purch_creater.fields['current_stock_level'].label is None)
         self.assertFalse(self.purch_creater.fields['current_stock_level'].label == 'current_stock_level')
 
     def test_purchase_total_stock_level_field_label(self):
-        self.assertFalse(self.purch_creater.fields['total_stock_level'].label == None)
+        self.assertFalse(self.purch_creater.fields['total_stock_level'].label is None)
         self.assertFalse(self.purch_creater.fields['total_stock_level'].label == 'total_stock_level')
 
     def test_purchase_supplier_tel_field_label(self):
-        self.assertFalse(self.purch_creater.fields['supplier_tel'].label == None)
+        self.assertFalse(self.purch_creater.fields['supplier_tel'].label is None)
         self.assertFalse(self.purch_creater.fields['supplier_tel'].label == 'supplier_tel')
 
     def test_form_is_valid(self):
@@ -71,31 +71,31 @@ class EditPurchaseFormTest(TestCase):
         )
 
     def test_purchase_name_field_label(self):
-        self.assertFalse(self.purch_creater.fields['name'].label == None)
+        self.assertFalse(self.purch_creater.fields['name'].label is None)
         self.assertFalse(self.purch_creater.fields['name'].label == 'name')
 
     def test_purchase_description_field_label(self):
-        self.assertFalse(self.purch_creater.fields['description'].label == None)
+        self.assertFalse(self.purch_creater.fields['description'].label is None)
         self.assertFalse(self.purch_creater.fields['description'].label == 'description')
 
     def test_purchase_quantity_field_label(self):
-        self.assertFalse(self.purch_creater.fields['quantity'].label == None)
+        self.assertFalse(self.purch_creater.fields['quantity'].label is None)
         self.assertFalse(self.purch_creater.fields['quantity'].label == 'quantity')
 
     def test_purchase_cost_price_field_label(self):
-        self.assertFalse(self.purch_creater.fields['cost_price'].label == None)
+        self.assertFalse(self.purch_creater.fields['cost_price'].label is None)
         self.assertFalse(self.purch_creater.fields['cost_price'].label == 'cost_price')
 
     def test_purchase_current_stock_level_field_label(self):
-        self.assertFalse(self.purch_creater.fields['current_stock_level'].label == None)
+        self.assertFalse(self.purch_creater.fields['current_stock_level'].label is None)
         self.assertFalse(self.purch_creater.fields['current_stock_level'].label == 'current_stock_level')
 
     def test_purchase_total_stock_level_field_label(self):
-        self.assertFalse(self.purch_creater.fields['total_stock_level'].label == None)
+        self.assertFalse(self.purch_creater.fields['total_stock_level'].label is None)
         self.assertFalse(self.purch_creater.fields['total_stock_level'].label == 'total_stock_level')
 
     def test_purchase_supplier_tel_field_label(self):
-        self.assertFalse(self.purch_creater.fields['supplier_tel'].label == None)
+        self.assertFalse(self.purch_creater.fields['supplier_tel'].label is None)
         self.assertFalse(self.purch_creater.fields['supplier_tel'].label == 'supplier_tel')
 
     def test_form_is_valid(self):
