@@ -10,7 +10,7 @@
             $("select").editableSelect();
         });
     </script>
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal" style="z-index: 50px">
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal" style="z-index: 50px;">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content"></div>
         </div>
@@ -48,9 +48,8 @@
             </div>
         </form>
     </div>
-    <hr />
     <div class="container">
-        <div class="row text-muted border-bottom mb-2 font-weight-bold">
+        <div class="row text-muted border-bottom border-top py-2 mb-2 font-weight-bold">
             <div class="col-4 pl-3">Name</div>
             <div class="col-1 pl-0">Quantity</div>
             <div class="col-2 pl-3">Unit Price</div>
@@ -78,16 +77,16 @@
         </div>
     {% endfor %}
     {% if not total_sales.total_amount__sum is None  %}
-        <hr />
         <div class="container mb-5">
-            <div class="row text-muted border-bottom mb-2 font-weight-bold">
-                <div class="col-4 pl-3">Grand Total</div>
-                <div class="col-4 pl-5 text-right">{{ total_sales.total_amount__sum }}</div>
-                <div class="col-4 text-center">
+            <div class="row text-muted border-bottom border-top pt-2 font-weight-bold">
+                <div class="col-6 pl-3">Grand Total</div>
+                <div class="col-3 pl-0 text-center">{{ total_sales.total_amount__sum }}</div>
+                <div class="col-3 pl-3">
                     <a class="btn btn-sm text-primary text-uppercase"
                     href="{% url 'checkout' %}"
                     title="Checkout"
-                    rel="modal:open"><i class="fa fa-credit-card mr-1"></i>Checkout</a></div>
+                    rel="modal:open"><i class="fa fa-credit-card mr-1"></i>Checkout</a>
+                </div>
             </div>
         </div>
     {% endif %}

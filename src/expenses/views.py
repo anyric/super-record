@@ -72,7 +72,7 @@ class ExpenseCreationView(CreateView):
     form_class = ExpenseCreationForm
     template_name = 'expenses/add_expense.html'
     success_message = 'Success: Expense creation succeeded.'
-    success_url = reverse_lazy('expense')
+    success_url = reverse_lazy('transactions')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -104,7 +104,7 @@ class EditExpenseView(UpdateView, DetailView):
     pk_url_kwarg = 'id'
     form_class = EditExpenseForm
     queryset = Expenses.objects.all()
-    success_url = reverse_lazy('expense')
+    success_url = reverse_lazy('transactions')
 
 @method_decorator(decorators, name='dispatch')
 class DeleteExpenseView(DeleteView):

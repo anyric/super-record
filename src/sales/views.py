@@ -28,7 +28,7 @@ class SalesCreationView(CreateView, ListView):
     object_list = []
     template_name = 'sales/add_sales.html'
     success_message = 'Success: Sales creation succeeded.'
-    success_url = reverse_lazy('sale')
+    success_url = reverse_lazy('transactions')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -45,7 +45,7 @@ class SalesCreationView(CreateView, ListView):
             sale = Product.objects.filter(id=request.POST.get('item')).values()[0]
             data = {
                 'name': sale['name'],
-                'item': int(request.POST.get('item')),
+                'item': int(sale['id']),
                 'quantity': request.POST.get('quantity', 0),
                 'unit_price': float(sale['unit_price']),
                 'total_amount': float(int(request.POST.get('quantity', 0)) * float(
@@ -69,7 +69,7 @@ class EditSalesView(UpdateView, DetailView):
     pk_url_kwarg = 'id'
     form_class = EditSalesForm
     queryset = Sales.objects.all()
-    success_url = reverse_lazy('sale')
+    success_url = reverse_lazy('transactions')
 
 @method_decorator(login_required, name="dispatch")
 class DeleteSalesView(DeleteView):
@@ -83,7 +83,7 @@ class CheckoutView(ListView):
     queryset = Sales.objects.all().order_by('-id')
     context_object_name = 'sales'
     template_name = 'sales/checkout.html'
-    success_url = reverse_lazy('sale')
+    success_url = reverse_lazy('transactions')
     item_list = []
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -91,6 +91,7 @@ class CheckoutView(ListView):
             sold_by=self.request.user.id).aggregate(Sum('total_amount'))
         context['balance'] = float(0.0)
         self.item_list += Sales.objects.filter(status='pending').values()
+        context['itmes'] = self.item_list
 
         return context
 
@@ -107,6 +108,27 @@ class CheckoutView(ListView):
             return HttpResponseRedirect(self.success_url)
 
         return render(request, self.template_name)
+
+class PrintReceiptView(PDFTemplateView):
+    template_name = 'sales/sales_receipt.html'
+
+    def get_context_data(self, **kwargs):
+        dataset = Sales.objects.values(
+                                'name','quantity','unit_price',
+                                'total_amount',
+                                'sold_by').filter(status='pending').filter(
+            sold_by=self.request.user.id)
+        context = super(PrintReceiptView, self).get_context_data(
+            pagesize='A5',
+            title='Sales Receipt',
+            **kwargs
+        )
+        context['total_sales'] = Sales.objects.filter(status='pending').filter(
+            sold_by=self.request.user.id).aggregate(Sum('total_amount'))
+        for data in dataset:
+            data['sold_by'] = User.objects.get(id=data['sold_by'])
+
+        return generate_report(context, dataset, 'Sales Receipt')
 
 class SalesPDFView(PDFTemplateView):
     template_name = 'sales/sales_report.html'

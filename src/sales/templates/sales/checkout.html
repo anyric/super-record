@@ -2,9 +2,9 @@
 {% load static %}
 {% block content%}
     <script type="text/javascript">
-        $("#index #checkout a").click(function() {
+        function compute(val) {
             total_amount = $('#totalAmount').val();
-            received_amount = $('#amountReceived').val();
+            received_amount = val;
             balance = parseFloat(received_amount) - parseFloat(total_amount)
             if (received_amount != ""){
                 if (balance == 0){
@@ -16,7 +16,7 @@
             }else{
                 $('#amountReceived').addClass("border border-danger");
             }
-        });
+        }
     </script>
     <form method="post" action="{% url 'checkout' %}">
     {% csrf_token %}
@@ -25,23 +25,29 @@
         </div>
 
         <div id="checkout" class="modal-body my-0">
-            <label for="totalAmount">Amount to Pay</label>
-            <div class="form-group">
-                <input type="text" readonly class="form-control pl-3 form-control-lg form-control-plaintext" name="total_amount" id="totalAmount" value="{{ total_sales.total_amount__sum }}">
+            <div class="form-row mx-0">
+                <div class="form-group col-md-6">
+                    <label for="totalAmount">Amount to Pay</label>
+                    <input type="text" readonly class="form-control pl-3 form-control-lg form-control-plaintext" name="total_amount" id="totalAmount" value="{{ total_sales.total_amount__sum }}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="amountReceived">Amount Received</label>
+                    <input type="text" class="form-control form-control-lg" name="amount_received" id="amountReceived" placeholder="Enter amount" oninput="compute(this.value)">
+                </div>
             </div>
-            <label for="amountReceived">Enter Amount Received</label>
-            <div class="form-group">
-                <input type="text" class="form-control form-control-lg" name="amount_received" id="amountReceived" placeholder="Enter amount received">
+            <div class="form-row"></div>
+                <div class="form-group">
+                    <label for="balance">Balance</label>
+                    <input type="text" readonly class="form-control pl-3 form-control-lg form-control-plaintext" name="balance" id="balance" value="{{ balance }}">
+                </div>
             </div>
-            <label for="balance">Balance</label>
-            <div class="form-group">
-                <input type="text" readonly class="form-control pl-3 form-control-lg form-control-plaintext" name="balance" id="balance" value="{{ balance }}">
-            </div>
-            <div class="form-group text-right"><a id="compute" class="btn btn-primary text-white py-1 px-2">COMPUTE</a></div>
         </div>
 
-        <div class="modal-footer form-group justify-content-start">
+        <div class="modal-footer form-group justify-content-between">
             <button type="submit" class="btn-primary py-1">PAY NOW</button>
+            <a class="nav-link border border-primary px-4 py-1 text-primary"
+                href="{% url 'sales_receipt' %}"
+                title="Sales Receipt"><i class="fa fa-file-pdf-o mr-1"></i>PRINT RECEIPT</a> 
             <a href="#close" type="reset" class="btn border border-primary text-primary px-3 py-1" rel="modal:close">CANCEL</a>
         </div>
     </form>

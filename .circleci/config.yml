@@ -41,7 +41,12 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: Testing application
-          command: make test
+          command: |
+            cd src/
+            pipenv install --skip-lock
+            . $(pipenv --venv)/bin/activate
+            pip install -U django-easy-pdf WeasyPrint psycopg2==2.8.3
+            python manage.py test
   
   upload_coverage:
     <<: *defaults
