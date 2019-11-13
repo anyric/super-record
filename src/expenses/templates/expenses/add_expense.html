@@ -58,9 +58,8 @@
             </div>
         </form>
     </div>
-    <hr />
     <div class="container" >
-        <div class="row text-muted border-bottom mb-2 font-weight-bold">
+        <div class="row text-muted border-bottom border-top py-2 mb-2 font-weight-bold">
             <div class="col-3 pl-3">Category</div>
             <div class="col-4 pl-0">Description</div>
             <div class="col-2 pl-3">Amount</div>
@@ -86,9 +85,8 @@
         </div>
     {% endfor %}
     {% if not total_expenses.amount__sum is None  %}
-        <hr />
         <div class="container mb-5">
-            <div class="row text-muted border-bottom mb-2 font-weight-bold">
+            <div class="row text-muted border-bottom border-top pt-2 mb-2 font-weight-bold">
                 <div class="col-7 pl-3">Grand Total</div>
                 <div class="col-5 pl-3">{{ total_expenses.amount__sum }}</div>
             </div>

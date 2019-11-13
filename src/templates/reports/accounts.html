@@ -1,15 +1,14 @@
 {% load static %}
 <script>
+    function search(val){
+        if (val != ""){
+            pageurl = href="{% url 'search_user' %}?q="+val;
+            $("#view").load(pageurl);
+        }else{
+            $("#view").load("{% url 'accounts' %}");
+        }
+    }
     $(document).ready(function() {
-        $("input").change(function() {
-            username = $(this).val();
-            if (username != ""){
-                pageurl = href="{% url 'search_user' %}?q="+username;
-                $("#view").load(pageurl);
-            }else{
-                $("#view").load("{% url 'accounts' %}");
-            }
-        });
         $("button").click(function() {
             $("#view").load("{% url 'accounts' %}");
         });
@@ -21,7 +20,7 @@
         {% if account_list %}  
             <div class="form-row">
                 <div class="col col-md-8">
-                    <input type="text" name="search" class="form-control" placeholder="Enter search username"> 
+                    <input type="text" name="search" class="form-control" placeholder="Enter search username" oninput="search(this.value)"> 
                 </div>
                 <div class="col col-md-2">
                     <button type="button" class="btn btn-outline-primary">Clear Filter</button>

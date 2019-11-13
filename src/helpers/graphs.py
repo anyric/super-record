@@ -1,12 +1,24 @@
 from django.http import JsonResponse
-from django.db.models import Count, Sum
-from accounts.models import Role
+from django.db.models import Sum
+from accounts.models import Role, User
 from stocks.models import Product
 from sales.models import Sales
-from expenses.models import Expenses
+from expenses.models import Expenses, ExpenseCategory
 
 def roles_graph(request):
-    dataset = Role.objects.values('name').annotate(total=Count('id'))
+    dataset = User.objects.values('username','groups')
+    groups = [data['groups'] for data in dataset]
+
+    category = []
+    val = []
+    gp = {}
+    for g in groups:
+         gp.setdefault(g,0)
+         gp[g] +=1
+    for team, count in gp.items():
+        name = [d['name'] for d in Role.objects.filter(id=team).values()]
+        category.append(name)
+        val.append(count)
     chart = {
         'chart': {
             'type': 'column',
@@ -16,19 +28,17 @@ def roles_graph(request):
         'yAxis': {
             'title': {'text': 'Number of Users'}},
         'xAxis': {
-            'title': {'text': 'User Roles'},
-            'categories': [data['name'] for data in dataset]
+            'categories': category
         },
         'series': [{
             'name': 'Roles',
-            'data': list(map(lambda row: {'name': row['name'], 'y': row['total']}, dataset))
+            'data': list(zip(category, val))
         }],
         'plotOptions': {
             'column': {
                 'colorByPoint': 'true'
             }
         },
-        # 'showLegend': 'true'
     }
     return JsonResponse(chart)
 
@@ -43,7 +53,6 @@ def stocks_graph(request):
         'yAxis': {
             'title': {'text': 'Level of Product'}},
         'xAxis': {
-            'title': {'text': 'Products'},
             'categories': [data['name'] for data in dataset]
         },
         'series': [{
@@ -60,6 +69,16 @@ def stocks_graph(request):
 
 def sales_graph(request):
     dataset = Sales.objects.values('name','total_amount').annotate(total=Sum('total_amount'))
+    category = []
+    total = 0.0
+    values = []
+    for data in dataset:
+        if not data['name'] in category:
+            category.append(data['name'])
+            for data['name'] in dataset:
+                total += data['total']
+            values.append(total)
+
     chart = {
         'chart': {
             'type': 'pie',
@@ -69,18 +88,26 @@ def sales_graph(request):
         'yAxis': {
             'title': {'text': 'Total Amounts'}},
         'xAxis': {
-            'title': {'text': 'Products Sold'},
-            'categories': [data['name'] for data in dataset]
+            'categories': category
         },
         'series': [{
             'name': 'Products',
-            'data': list(map(lambda row: {'name': row['name'], 'y': row['total']}, dataset))
+            'data':  list(zip(category, values))
         }]
     }
     return JsonResponse(chart)
 
 def expenses_graph(request):
     dataset = Expenses.objects.values('category','amount').annotate(total=Sum('amount'))
+    category = []
+    total = 0.0
+    values = []
+    for data in dataset:
+        if not data['category'] in category:
+            category.append(str(ExpenseCategory.objects.get(id=int(data['category']))))
+            for data['category'] in dataset:
+                total += data['total']
+            values.append(total)
     chart = {
         'chart': {
             'type': 'pie',
@@ -90,12 +117,11 @@ def expenses_graph(request):
         'yAxis': {
             'title': {'text': 'Total Amounts'}},
         'xAxis': {
-            'title': {'text': 'Expenses Incured'},
-            'categories': [data['category'] for data in dataset]
+            'categories': category
         },
         'series': [{
             'name': 'Expenses',
-            'data': list(map(lambda row: {'category': row['category'], 'y': row['total']}, dataset))
+            'data': list(zip(category, values))
         }]
     }
     return JsonResponse(chart)
