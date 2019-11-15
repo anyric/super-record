@@ -26,6 +26,9 @@
                 }else if ($(this).attr("id") == 'expenses'){
                     pageurl = page.replace("accounts",$(this).attr("id"));
                     pageurl = pageurl.replace("accounts", "expenses");
+                }else if ($(this).attr("id") == 'analysis'){
+                    pageurl = page.replace("accounts",$(this).attr("id"));
+                    pageurl = pageurl.replace("accounts", "analysis");
                 }else{  
                     pageurl = page.replace("accounts",$(this).attr("id"));
                 }
@@ -42,6 +45,7 @@
             <a id="sales" href="#sales">Sales</a>
             <a id="categories" href="#categories">Expenses Category</a>
             <a id="expenses" href="#expense">Expenses</a>
+            <a id="analysis" href="#analysis">Analytics</a>
         </div>
         <div class="embed-responsive main" style="max-width: 92%;">
             <div id='view'></div>

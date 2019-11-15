@@ -10,6 +10,10 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.models import Group
 from .models import User, Role
+from stocks.models import Product
+from sales.models import Sales
+from purchase.models import Purchase
+from expenses.models import ExpenseCategory, Expenses
 from .permissions import assign_permissions, remove_permissions
 from decorators.decorators import group_required
 from easy_pdf.views import PDFTemplateView
@@ -187,8 +191,22 @@ class DeleteRoleView(DeleteView):
     success_url = reverse_lazy('setting')
 
 @method_decorator(login_required, name='dispatch')
-class Home(TemplateView):
+class Home(ListView):
+    queryset = User.objects.all().order_by('id')
+    paginate_by = 10
     template_name = 'accounts/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['users'] = len(User.objects.all())
+        context['roles'] = len(Group.objects.all())
+        context['stocks'] = len(Product.objects.all())
+        context['sales'] = len(Sales.objects.all())
+        context['purchases'] = len(Purchase.objects.all())
+        context['category'] = len(ExpenseCategory.objects.all())
+        context['expenses'] = len(Expenses.objects.all())
+
+        return context
 
 @method_decorator(decorators, name='dispatch')
 class Setting(TemplateView):

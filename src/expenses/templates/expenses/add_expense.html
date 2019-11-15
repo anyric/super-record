@@ -19,7 +19,7 @@
         <form method="post" action="{% url 'expense' %}">
         {% csrf_token %}
             <div class="modal-header my-0">
-                <h5 class="modal-title text-primary">ADD INCURRED EXPENSES</h5>
+                <h5 class="modal-title">ADD INCURRED EXPENSES</h5>
             </div>
             <div class="modal-body my-0">
                 <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">

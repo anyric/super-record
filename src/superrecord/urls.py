@@ -14,6 +14,7 @@ urlpatterns = [
     path('reports/sales/', main_view.SalesListView.as_view(), name='sales_list'),
     path('reports/categories/', main_view.CategoryListView.as_view(), name='categories'),
     path('reports/expenses/', main_view.ExpensesListView.as_view(), name='expenses_list'),
+    path('reports/analysis/', main_view.AnalysisView.as_view(), name='analysis'),
     path('accounts/', include('accounts.urls')),
     path('stocks/', include('stocks.urls')),
     path('purchases/', include('purchase.urls')),
