@@ -124,5 +124,9 @@ class SearchExpensesView(ListView):
         return context
 
 @method_decorator(login_required, name='dispatch')
+class AnalysisView(TemplateView):
+    template_name = 'reports/analysis.html'
+
+@method_decorator(login_required, name='dispatch')
 class TransactionsView(TemplateView):
     template_name = 'transactions/transactions.html'

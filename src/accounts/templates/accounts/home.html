@@ -2,75 +2,46 @@
 
 {% block title%}Dashboard{%endblock%}
 {% block content %}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var $roles_url = $('#index .roles').attr('data-url');
-            var $stocks_url = $('#index .stocks').attr('data-url');
-            var $sales_url = $('#index .sales').attr('data-url');
-            var $expenses_url = $('#index .expenses').attr('data-url');
-            $.ajax({
-                url: $roles_url,
-                dataType: 'json',
-                success: function (data) {
-                    if(data.series[0].data.length > 0){
-                        Highcharts.chart("roles", data);
-                        $('#index .highcharts-credits').remove()
-                    }
-                }
-            });
-            $.ajax({
-                url: $stocks_url,
-                dataType: 'json',
-                success: function (data) {
-                    if(data.series[0].data.length > 0){
-                        Highcharts.chart("stocks", data);
-                        $('#index .highcharts-credits').remove()
-                    }
-                }
-            });
-            $.ajax({
-                url: $sales_url,
-                dataType: 'json',
-                success: function (data) {
-                    if(data.series[0].data.length > 0){
-                        Highcharts.chart("sales", data);
-                        data.chart.type = 'column'
-                        Highcharts.chart("sales1", data);
-                        $('#index .highcharts-credits').remove()
-                    }
-                }
-            });
-            $.ajax({
-                url: $expenses_url,
-                dataType: 'json',
-                success: function (data) {
-                    if(data.series[0].data.length > 0){
-                        Highcharts.chart("expenses", data);
-                        data.chart.type = 'column'
-                        Highcharts.chart("expenses1", data);
-                        $('#index .highcharts-credits').remove()
-                    }
-                }
-            });
-        });
-    </script>
-    <div class="container my-4" style="max-width: 90%;">
-        <h5 class="text-uppercase font-weight-lighter text-primary ml-3">Analytics</h5>
+    <div class="container my-4">
+        <h5 class="text-uppercase font-weight-lighter text-primary ml-3">Summary</h5>
         <div class="row justify-content-center">
-            <div id="roles" class="roles mt-5" name="roles" data-url="{% url 'roles_data' %}"></div>
-            <div id="stocks" class="stocks ml-5 mt-5" name="stocks" data-url="{% url 'stocks_data' %}"></div>
+            <div class="card shadow my-4 mx-4" style="width: 20rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-muted">Total Users</h5>
+                    <h3 class="card-text text-primary font-weight-bold">{{ users }}</h3>
+                </div>
+            </div>
+            <div class="card shadow my-4 mx-4" style="width: 20rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-muted">Total User Roles</h5>
+                    <h3 class="card-text text-primary font-weight-bold">{{ roles }}</h3>
+                </div>
+            </div>
+            <div class="card shadow my-4 mx-4" style="width: 20rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-muted">Total Purchases</h5>
+                    <h3 class="card-text text-primary font-weight-bold">{{ purchases }}</h3>
+                </div>
+            </div>
+            <div class="card shadow my-4 mx-4" style="width: 20rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-muted">Total Stock Types</h5>
+                    <h3 class="card-text text-primary font-weight-bold">{{ stocks }}</h3>
+                </div>
+            </div>
+            <div class="card shadow my-4 mx-4" style="width: 20rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-muted">Total Sales Transactions</h5>
+                    <h3 class="card-text text-primary font-weight-bold">{{ sales }}</h3>
+                </div>
+            </div>
+            <div class="card shadow my-4 mx-4" style="width: 20rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-muted">Total Expenses Category</h5>
+                    <h3 class="card-text text-primary font-weight-bold">{{ category }}</h3>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="container my-5" style="max-width: 90%;">
-        <div class="row my-5 justify-content-center">
-            <div id="sales" class="sales mt-5" name="sales" data-url="{% url 'sales_data' %}"></div>
-            <div id="sales1" class="sales1 ml-5 mt-5" name="sales1"></div>
-        </div>
-    </div>
-    <div class="container my-5" style="max-width: 90%;">
-        <div class="row my-5 justify-content-center">
-            <div id="expenses" class="expenses mt-5" name="expenses" data-url="{% url 'expenses_data' %}"></div>
-            <div id="expenses1" class="expenses1 ml-5 mt-5" name="expenses1"></div>
-        </div>
-    </div>
+
 {% endblock %}
