@@ -1,6 +1,22 @@
 {% load static %}
-
+<script type="text/javascript">
+    $(document).ready(function() {
+        document.getElementById("user_logo").style.display = "none";
+        var logo = document.getElementById('nav_logo')
+        var logoText = document.getElementById('nav_title')
+        var img = document.getElementById("user_logo").getAttribute("src")
+        var title = document.getElementById("user_logo").getAttribute("alt")
+        logo.src = img;
+        logoText.innerHTML = title;
+        $("#index #page a").click(function() {
+            page = $(this).attr("href");
+            pageurl = page.replace("#",'');
+            $("#view").load(pageurl);
+        });
+    });
+</script>
 <div class="container my-2">
+    <img id="user_logo" src="/media/{{ company.logo }}" alt="{{ company.name }}">
     <div class="row navbar navbar-light mb-3 text-monospace ">
         <h5 class="text-uppercase font-weight-lighter">User Account</h5>
         <a class="nav-link border border-primary px-3 py-2 text-primary"
@@ -9,16 +25,6 @@
             rel="modal:open"><i class="fa fa-user-plus mr-1"></i>Add User</a>
     </div>
     <!-- Modal -->
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("#index #page a").click(function() {
-                page = $(this).attr("href");
-                pageurl = page.replace("#",'');
-                $("#view").load(pageurl);
-            });
-        });
-    </script>
-
     <style type="text/css">
         .parent .row:hover {
             background-color: gray;
@@ -36,7 +42,6 @@
             <div class="col-1">Status</div>
             <div class="col-3 pl-5">&nbsp;Action</div>
         </div>
-
         {% for user in user_list %}
             <div class="parent">
                 <div class="row highlight bg-light mb-2 py-2">

@@ -8,8 +8,8 @@
             <ul class=" container nav justify-content-between">
                 <li class="nav-item">
                     <a class="navbar-brand text-white" href="/">
-                        <img src="{% static 'images/logo1.png' %}" width="30" height="30" class="d-inline-block align-top" alt="Logo">
-                        Super Record
+                        <img id="nav_logo" src="{% static 'images/logo1.png' %}" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+                        <span id="nav_title">Super Record</span>
                     </a>
                 </li>
                 {% if request.user.is_authenticated %}

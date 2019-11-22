@@ -1,5 +1,11 @@
 {% load static %}
-
+<script>
+    $(document).ready(function() {
+        var logo = document.getElementById('nav_logo');
+        var img = document.getElementById("comp_logo").getAttribute("src");
+        logo.setAttribute("src", img);
+    });
+</script>
 <div class="container my-2">
     <div class="row navbar navbar-light mb-3 text-monospace ">
         <h5 class="text-uppercase font-weight-lighter">Expenses List</h5>

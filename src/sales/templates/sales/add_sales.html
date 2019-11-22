@@ -3,6 +3,13 @@
 {% block content%}
     <script type="text/javascript">
         $(document).ready(function () {
+            document.getElementById("user_logo").style.display = "none";
+            var logo = document.getElementById('nav_logo')
+            var logoText = document.getElementById('nav_title')
+            var img = document.getElementById("user_logo").getAttribute("src")
+            var title = document.getElementById("user_logo").getAttribute("alt")
+            logo.src = img;
+            logoText.innerHTML = title;
             selected = $("select option:selected").val();
             if (selected == ""){
                 $("select option:selected").remove();
@@ -16,6 +23,7 @@
         </div>
     </div>
     <div class="container">
+        <img id="user_logo" src="/media/{{ company.logo }}" alt="{{ company.name }}">
         <form method="post" action="{% url 'sale' %}">
         {% csrf_token %}
             <div class="modal-header my-0">
