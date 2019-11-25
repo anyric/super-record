@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, UpdateView, DetailView, DeleteView, CreateView )
+from company.models import Company
 from stocks.models import Product
 from .forms import SalesCreationForm, EditSalesForm
 from .models import Sales
@@ -36,6 +37,7 @@ class SalesCreationView(CreateView, ListView):
             sold_by=self.request.user.id)
         context['total_sales'] = Sales.objects.filter(status='pending').filter(
             sold_by=self.request.user.id).aggregate(Sum('total_amount'))
+        context['company'] = Company.objects.all().values()[0]
 
         return context
 

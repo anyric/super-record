@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, ListView
+from company.models import Company
 from accounts.models import User, Role
 from stocks.models import Product
 from purchase.models import Purchase
@@ -20,6 +21,12 @@ class AccountListView(ListView):
     paginate_by = 10
     context_object_name = 'account_list'
     template_name = 'reports/accounts.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company'] = Company.objects.all().values()[0]
+
+        return context
 
 class SearchUserView(ListView):
     queryset = User.objects.all().order_by('id')

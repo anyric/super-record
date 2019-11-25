@@ -1,5 +1,7 @@
 from django.urls import path, include
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from helpers import graphs as graph_view
 from . import views as main_view
 
@@ -15,6 +17,7 @@ urlpatterns = [
     path('reports/categories/', main_view.CategoryListView.as_view(), name='categories'),
     path('reports/expenses/', main_view.ExpensesListView.as_view(), name='expenses_list'),
     path('reports/analysis/', main_view.AnalysisView.as_view(), name='analysis'),
+    path('company/', include('company.urls')),
     path('accounts/', include('accounts.urls')),
     path('stocks/', include('stocks.urls')),
     path('purchases/', include('purchase.urls')),
@@ -30,4 +33,4 @@ urlpatterns = [
     path('search/sale/', main_view.SearchSalesView.as_view(), name='search_sale'),
     path('search/purchase/', main_view.SearchPurchaseView.as_view(), name='search_purchase'),
     path('search/stock/', main_view.SearchStockView.as_view(), name='search_stock')
-]
+] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -9,6 +9,7 @@ from .forms import ( UserRegisterForm, EditProfileForm,
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.models import Group
+from company.models import Company
 from .models import User, Role
 from stocks.models import Product
 from sales.models import Sales
@@ -26,6 +27,12 @@ class UserListView(ListView):
     paginate_by = 10
     context_object_name = 'user_list'
     template_name = 'accounts/user.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company'] = Company.objects.all().values()[0]
+
+        return context
 
 @method_decorator(login_required, name='dispatch')
 class EditProfileView(UpdateView, DetailView):
@@ -205,12 +212,19 @@ class Home(ListView):
         context['purchases'] = len(Purchase.objects.all())
         context['category'] = len(ExpenseCategory.objects.all())
         context['expenses'] = len(Expenses.objects.all())
+        context['company'] = Company.objects.all().values()[0]
 
         return context
 
 @method_decorator(decorators, name='dispatch')
 class Setting(TemplateView):
     template_name = 'accounts/setting.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company'] = Company.objects.all()
+
+        return context
 
 class AccountPDFView(PDFTemplateView):
     template_name = 'accounts/account_report.html'

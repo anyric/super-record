@@ -10,6 +10,7 @@
                 $("a.selected").removeClass("selected")
                 $(this).addClass("selected");
                 page = "{% url 'user' %}"
+                comp = "{% url 'edit_company' 1 %}"
                 pageurl = ""
                 if ($(this).attr("id") == 'products'){
                     pageurl = page.replace("user",$(this).attr("id"));
@@ -26,7 +27,9 @@
                 }else if ($(this).attr("id") == 'expenses'){
                     pageurl = page.replace("user",$(this).attr("id"));
                     pageurl = pageurl.replace("accounts", "expenses");
-                }else{  
+                }else if ($(this).attr("id") == 'company'){
+                    pageurl = comp.replace("accounts", "company")
+                }else{
                     pageurl = page.replace("user",$(this).attr("id"));
                 }
                 $("#view").load(pageurl);
@@ -40,6 +43,7 @@
             <a id="products" href="#products">Stocks</a>
             <a id="purchases" href="#purchases">Purchases</a>
             <a id="categories" href="#categories">Expenses</a>
+            <a id="company" href="#company">Company</a>
         </div>
         <div class="embed-responsive main" style="max-width: 92%;">
             <div id='view'></div>

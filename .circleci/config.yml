@@ -45,7 +45,7 @@ jobs:
             cd src/
             pipenv install --skip-lock
             . $(pipenv --venv)/bin/activate
-            pip install -U django-easy-pdf WeasyPrint psycopg2==2.8.3
+            pip install django==2.2.4 django-easy-pdf WeasyPrint psycopg2==2.8.3
             python manage.py test
   
   upload_coverage:
@@ -62,7 +62,7 @@ jobs:
             cd src/
             pipenv install --skip-lock
             . $(pipenv --venv)/bin/activate
-            pip install -U django-easy-pdf WeasyPrint psycopg2==2.8.3
+            pip install django==2.2.4 django-easy-pdf WeasyPrint psycopg2==2.8.3
             coverage run manage.py test
             coverage xml
             python-codacy-coverage -r coverage.xml

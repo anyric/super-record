@@ -24,6 +24,23 @@ class SearchUserViewTest(TestCase):
         response = self.client.get(reverse_lazy('search_user'), data={'q':self.test.username})
         self.assertEqual(response.status_code, 200)
 
+class AccountListViewTest(TestCase):
+    def setUp(self):
+        self.test = User.objects.create_user("test", "test@info.com", "1234@test")
+        self.test2 = User.objects.create_user("test2", "test2@info.com", "1234@test2")
+        role = Role.objects.create(name="Manager", description="This is a test role")
+        self.test.save()
+        role.save()
+        self.test2.save()
+        self.username = 'test'
+        self.password = '1234@test'
+
+    def test_account_list_view(self):
+        self.test.groups.add(Group.objects.get(name='Manager'))
+        self.client.login(username=self.username, password=self.password)
+        response = self.client.get(reverse_lazy('accounts'))
+        self.assertEqual(response.status_code, 200)
+
 class SearchSalesViewTest(TestCase):
     def setUp(self):
         self.test = User.objects.create_user("test", "test@info.com", "1234@test")

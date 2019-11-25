@@ -27,7 +27,7 @@ RUN chmod +x prod_start.sh
 RUN pipenv install --skip-lock --system && \
     apk --update --upgrade add gcc musl-dev jpeg-dev zlib-dev \
     libffi-dev cairo-dev pango-dev gdk-pixbuf-dev && \
-    pip install -U django-easy-pdf
+    pip install django==2.2.4 django-easy-pdf
 
 CMD bash -c "source prod_start.sh"
 
