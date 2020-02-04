@@ -14,7 +14,7 @@
         var logoText = document.getElementById('nav_title')
         var img = document.getElementById("user_logo").getAttribute("src")
         var title = document.getElementById("user_logo").getAttribute("alt")
-        logo.src = img;
+        //logo.src = img;
         logoText.innerHTML = title;
 
         $("button").click(function() {
@@ -23,7 +23,8 @@
     });
 </script>
 <div class="container my-2">
-    <img id="user_logo" src="/media/{{ company.logo }}" alt="{{ company.name }}">
+    <!-- <img id="user_logo" src="/media/{{ company.logo }}" alt="{{ company.name }}"> -->
+    <img id="user_logo" src="/media/{{ logo1.png }}" alt="{{ company.name }}">
     <div class="row navbar navbar-light mb-3 text-monospace">
         <h5 class="text-uppercase font-weight-lighter">User Accounts</h5>
         {% if account_list %}  

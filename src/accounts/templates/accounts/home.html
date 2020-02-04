@@ -9,12 +9,13 @@
             var logoText = document.getElementById('nav_title')
             var img = document.getElementById("user_logo").getAttribute("src")
             var title = document.getElementById("user_logo").getAttribute("alt")
-            logo.src = img;
+            //logo.src = img;
             logoText.innerHTML = title;
         });
     </script>
     <div class="container my-4" style="max-width: 90%;">
-        <img id="user_logo" src="/media/{{ company.logo }}" alt="{{ company.name }}">
+        <img id="user_logo" src="/media/{{ logo1.png }}" alt="{{ company.name }}">
+        <!-- <img id="user_logo" src="/media/{{ company.logo }}" alt="{{ company.name }}"> -->
         <h5 class="text-uppercase font-weight-lighter text-primary ml-3">Summary</h5>
         <div class="row justify-content-center">
             <a class="navbar-brand" href="{% url 'reports' %}">

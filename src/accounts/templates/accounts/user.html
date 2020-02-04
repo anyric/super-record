@@ -6,7 +6,7 @@
         var logoText = document.getElementById('nav_title')
         var img = document.getElementById("user_logo").getAttribute("src")
         var title = document.getElementById("user_logo").getAttribute("alt")
-        logo.src = img;
+        //logo.src = img;
         logoText.innerHTML = title;
         $("#index #page a").click(function() {
             page = $(this).attr("href");
@@ -16,7 +16,8 @@
     });
 </script>
 <div class="container my-2">
-    <img id="user_logo" src="/media/{{ company.logo }}" alt="{{ company.name }}">
+    <!-- <img id="user_logo" src="/media/{{ company.logo }}" alt="{{ company.name }}"> -->
+    <img id="user_logo" src="/media/{{ logo1.png }}" alt="{{ company.name }}">
     <div class="row navbar navbar-light mb-3 text-monospace ">
         <h5 class="text-uppercase font-weight-lighter">User Account</h5>
         <a class="nav-link border border-primary px-3 py-2 text-primary"

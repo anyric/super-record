@@ -8,7 +8,7 @@
             var logoText = document.getElementById('nav_title')
             var img = document.getElementById("user_logo").getAttribute("src")
             var title = document.getElementById("user_logo").getAttribute("alt")
-            logo.src = img;
+            //logo.src = img;
             logoText.innerHTML = title;
             selected = $("select option:selected").val();
             if (selected == ""){
@@ -23,7 +23,8 @@
         </div>
     </div>
     <div class="container">
-        <img id="user_logo" src="/media/{{ company.logo }}" alt="{{ company.name }}">
+        <!-- <img id="user_logo" src="/media/{{ company.logo }}" alt="{{ company.name }}"> -->
+        <img id="user_logo" src="/media/{{ logo1.png }}" alt="{{ company.name }}">
         <form method="post" action="{% url 'sale' %}">
         {% csrf_token %}
             <div class="modal-header my-0">
