@@ -1,7 +1,7 @@
 version: 2
 defaults: &defaults
   docker:
-    - image: circleci/python:3.7
+    - image: circleci/python:3.8
     - image: postgres:10.7
       environment:
         POSTGRES_USER: superrecord
@@ -20,7 +20,7 @@ attach_workspace: &attach_workspace
 jobs:
   build:
     docker:
-      - image: circleci/python:3.7
+      - image: circleci/python:3.8
     working_directory: ~/super-record
     steps:
       - checkout
